@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+    <router-view v-if="$route.meta.keepAlive"/>
   </div>
 </template>
 
