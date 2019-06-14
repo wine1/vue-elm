@@ -1,4 +1,4 @@
-body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, li, a, p, h1, h2, h3, h4,h5, h6, i, b, textarea, button, input, select, figure, figcaption, {
+body, div, span, header, footer, nav, section, aside, article, ul, li,dl, dt, dd, li, a, p, h1, h2, h3, h4,h5, h6, i, b, textarea, button, input, select, figure, figcaption {
     padding: 0;
     margin: 0;
     list-style: none;
@@ -17,8 +17,7 @@ body, div, span, header, footer, nav, section, aside, article, ul, dl, dt, dd, l
 }
 
 /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/  
-::-webkit-scrollbar  
-{  
+::-webkit-scrollbar {  
     width: 0px;  
     height: 0px;  
     background-color: #F5F5F5;  
@@ -95,7 +94,7 @@ html,body{
 }
 
 .paddingTop{
-    padding-top: 1.95rem;
+    padding-top: 2rem;
 }
 
 @keyframes backOpacity{
@@ -108,4 +107,12 @@ html,body{
 
 .animation_opactiy{
     animation: backOpacity 2s ease-in-out infinite;
+}
+
+.arrow-right {
+    display: inline-block;
+    width: .8rem;
+    height: .8rem;
+    background: url('../images/arrow-right.png') no-repeat;
+    background-size: 100% 100%;
 }
