@@ -116,3 +116,17 @@ html,body{
     background: url('../images/arrow-right.png') no-repeat;
     background-size: 100% 100%;
 }
+
+.arrow-left {
+    display: inline-block;
+    width: .8rem;
+    height: .8rem;
+    background: url('../images/arrow-right.png') no-repeat;
+    background-size: 100% 100%;
+    transform: rotate(180deg);
+}
+
+.unclickable {
+    pointer-events: none;
+    color: #333 !important;
+}

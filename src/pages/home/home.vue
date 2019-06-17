@@ -20,19 +20,19 @@
     <section class="hot-city-container">
       <h4 class="city-title">热门城市</h4>
       <ul class="citylistul clear">
-        <router-link tag="li" v-for="item in hotcity" :to="'/city/'+item.id" :key="item.id">{{item.name}}</router-link>
+        <router-link tag="li" v-for="item in hotcity" to="'/city/'+item.id" :key="item.id" >{{item.name}}</router-link>
       </ul>
     </section>
     <!-- 按字母排序 -->
     <section class="group-city-container">
       <ul class="letter-classify">
-        <li v-for="(value,key,index) in sortgroupcity" :to="'/city/'+item.id" :key="item.id" :key="key" class="letter-classify-li">
+        <li v-for="(value,key,index) in sortgroupcity" :key="key" class="letter-classify-li">
           <h4 class="city-title">
             {{key}}
             <span v-if="index==0">（按字母排序）</span>
           </h4>
           <ul class="groupcity-name-container citylistul clear">
-            <router-link tag="li" v-for="item in value" :to="/city/" class="ellipsis">{{item.name}}</router-link>
+            <router-link tag="li" v-for="item in value" :to="/city/ + item.id" class="ellipsis" :key="item.id" >{{item.name}}</router-link>
           </ul>
         </li>
       </ul>
