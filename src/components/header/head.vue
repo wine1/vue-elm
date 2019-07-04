@@ -11,8 +11,8 @@
       <span class="title-text">{{headTitle}}</span>
     </section>
 
-    <router-link>
-      <div v-if="signUp" class="head-login">
+    <router-link :to="userInfo? '/profile':'/login'" v-if='signinUp' class="head_login">
+      <div v-if="signinUp" class="head-login">
         <div class="user-avatar" v-if="userInfo">
           <i class="entrance-icon"></i>
         </div>
@@ -34,7 +34,7 @@ export default {
   data() {
     return {};
   },
-  props: ["goBack","headTitle","signUp"]
+  props: ["goBack","headTitle","signinUp"]
 };
 </script>
 
