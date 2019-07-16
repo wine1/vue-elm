@@ -1,6 +1,6 @@
 <template>
   <div id="home">
-    <headTop>
+    <headTop signinUp='home'>
       <div slot="logo" class="logo" @click="reload()">ele.me</div>
     </headTop>
 
@@ -193,4 +193,6 @@ export default {
     color: #333;
   }
 }
+
+
 </style>

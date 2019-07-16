@@ -11,7 +11,7 @@
       <span class="title-text">{{headTitle}}</span>
     </section>
 
-    <router-link :to="userInfo? '/profile':'/login'" v-if='signinUp' class="head_login">
+    <router-link :to="userInfo? '/profile':'/login'" v-if='signinUp' class="head-login">
       <div v-if="signinUp" class="head-login">
         <div class="user-avatar" v-if="userInfo">
           <i class="entrance-icon"></i>
@@ -32,7 +32,9 @@
 export default {
   name: "headTop",
   data() {
-    return {};
+    return {
+      userInfo:''
+    };
   },
   props: ["goBack","headTitle","signinUp"]
 };
@@ -83,5 +85,15 @@ export default {
     top: 50%;
     transform: translateY(-50%);
   }
+  .head-login {
+  float: right;
+  margin-right: .2rem;
+  height: 2rem;
+  line-height:2rem;
+  .login-span {
+    color: #fff;
+    font-size: .15rem;
+  }
+}
 }
 </style>

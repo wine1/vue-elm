@@ -4,6 +4,9 @@ const home = r =>
   require.ensure([], () => r(require("../pages/home/home")), "home");
 const city = r =>
   require.ensure([], () => r(require("../pages/city/city")), "city");
+const login = r=> {
+  require.ensure([], () => r(require("../pages/login/login")),"login");
+}
 
 export default [
   {
@@ -25,6 +28,11 @@ export default [
       {
         path: "/city/:cityid",
         component: city
+      },
+      // 登录页
+      {
+        path:"/login",
+        component: login
       }
     ]
   }
