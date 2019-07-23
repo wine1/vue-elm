@@ -13,14 +13,14 @@
           class="city-input input-style"
           required
           v-model="inputValue"
-        >
+        />
         <input
           type="submit"
           name="submit"
           class="city-submit input-style"
           @click="postpois"
           value="提交"
-        >
+        />
       </div>
     </form>
 
@@ -40,6 +40,9 @@
 </template>
 <script>
 import headTop from "../../components/header/head";
+import { currentcity, searchPlace } from "../../../src/service/getData";
+import { getStore, setStore, removeStore } from "../../config/mUtils";
+
 export default {
   name: "city",
   components: {
@@ -49,11 +52,20 @@ export default {
   data() {
     return {
       inputValue: "",
+      cityid: "",
+      cityname: "",
       placelist: [],
-      historytitle:false,
-      placeNone:false,
-      cityname:'上海'
+      historytitle: false,
+      placeNone: false
     };
+  },
+
+  mounted() {
+    this.cityid = this.$route.params.cityid;
+    currentcity(this.cityid).then(res => {
+      this.cityname = res.name;
+    });
+    // this.initData();
   },
 
   methods: {
@@ -82,13 +94,14 @@ export default {
     height: 1.4rem;
   }
   .input-style:focus {
-    border:0;
+    border: 0;
   }
   .city-input {
     border: 1px solid #e4e4e4;
     padding: 0 0.3rem;
     font-size: 0.65rem;
     color: #333;
+    box-sizing: border-box;
   }
   .city-submit {
     background-color: #3190e8;
