@@ -5,13 +5,13 @@
     </headTop>
 
     <nav class="city-nav">
-      <!-- 这里需要接入定位的api -->
+      
       <div class="city-tip">
         <span>当前定位城市：</span>
         <span>定位不准时，请在城市列表中选择</span>
       </div>
       <!-- 这里需要配置跳转地址啥啥啥的 -->
-      <router-link :to="'/city/'+ guessCityid" class="guess-city">
+      <router-link to="'/city/'" class="guess-city">
         <span>{{guessCity}}</span>
         <i class="arrow-right"></i>
       </router-link>
@@ -20,19 +20,19 @@
     <section class="hot-city-container">
       <h4 class="city-title">热门城市</h4>
       <ul class="citylistul clear">
-        <router-link tag="li" v-for="item in hotcity" :to="'/city/'+item.id" :key="item.id">{{item.name}}</router-link>
+        <router-link tag="li" v-for="item in hotcity" to="'/city/' " :key="item.id">{{item.name}}</router-link>
       </ul>
     </section>
     <!-- 按字母排序 -->
     <section class="group-city-container">
       <ul class="letter-classify">
-        <li v-for="(value,key,index) in sortgroupcity" :to="'/city/'+item.id" :key="item.id" :key="key" class="letter-classify-li">
+        <li v-for="(value,key,index) in sortgroupcity" :key="key" class="letter-classify-li">
           <h4 class="city-title">
             {{key}}
             <span v-if="index==0">（按字母排序）</span>
           </h4>
           <ul class="groupcity-name-container citylistul clear">
-            <router-link tag="li" v-for="item in value" :to="/city/" class="ellipsis">{{item.name}}</router-link>
+            <router-link tag="li" v-for="item in value"  :key="item.id" to="'/city/'" class="ellipsis" >{{item.name}}</router-link>
           </ul>
         </li>
       </ul>
