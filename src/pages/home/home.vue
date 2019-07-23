@@ -20,11 +20,7 @@
     <section class="hot-city-container">
       <h4 class="city-title">热门城市</h4>
       <ul class="citylistul clear">
-<<<<<<< HEAD
-        <router-link tag="li" v-for="item in hotcity" to="'/city/' " :key="item.id">{{item.name}}</router-link>
-=======
         <router-link tag="li" v-for="item in hotcity" :to="'/city/'+item.id" :key="item.id" >{{item.name}}</router-link>
->>>>>>> feb6a02b263ededaa8e24297471dd4151c9e26ef
       </ul>
     </section>
     <!-- 按字母排序 -->
@@ -36,11 +32,7 @@
             <span v-if="index==0">（按字母排序）</span>
           </h4>
           <ul class="groupcity-name-container citylistul clear">
-<<<<<<< HEAD
-            <router-link tag="li" v-for="item in value"  :key="item.id" to="'/city/'" class="ellipsis" >{{item.name}}</router-link>
-=======
             <router-link tag="li" v-for="item in value" :to="/city/ + item.id" class="ellipsis" :key="item.id" >{{item.name}}</router-link>
->>>>>>> feb6a02b263ededaa8e24297471dd4151c9e26ef
           </ul>
         </li>
       </ul>
