@@ -1,9 +1,29 @@
 <template>
   <div id="head-top">
     <slot name="logo"></slot>
-    <div class="entrance">
-      <div class="entrance-icon"></div>
-    </div>
+    <slot name="search"></slot>
+
+    <section class="head-goback" v-if="goBack" @click="$router.go(-1)">
+      <i class="arrow-left"></i>
+    </section>
+
+    <section class="title-head" v-if="headTitle">
+      <span class="title-text">{{headTitle}}</span>
+    </section>
+
+    <router-link :to="userInfo? '/profile':'/login'" v-if='signinUp' class="head-login">
+      <div v-if="signinUp" class="head-login">
+        <div class="user-avatar" v-if="userInfo">
+          <i class="entrance-icon"></i>
+        </div>
+        <span class="login-span" v-else>登录|注册</span>
+      </div>
+    </router-link>
+
+    <slot name="edit"></slot>
+    <slot name="msite-title"></slot>
+    <slot name="changecity"></slot>
+    <slot name="changeLogin"></slot>
   </div>
 </template>
 
@@ -12,12 +32,16 @@
 export default {
   name: "headTop",
   data() {
-    return {};
-  }
+    return {
+      userInfo:''
+    };
+  },
+  props: ["goBack","headTitle","signinUp"]
 };
 </script>
 
 <style lang="scss" scoped>
+@import "../../style/mixin.scss";
 #head-top {
   position: fixed;
   width: 100%;
@@ -34,5 +58,42 @@ export default {
     background: url("../../images/people.png") no-repeat;
     background-size: 100% 100%;
   }
+
+  .title-head {
+    @include center;
+    width: 50%;
+    color: #fff;
+    text-align: center;
+    .title-text {
+      @include sc(0.8rem, #fff);
+      text-align: center;
+      font-weight: bold;
+    }
+  }
+  .head-goback {
+    left: 0.4rem;
+    width: 0.6rem;
+    height: 1rem;
+    line-height: 2.2rem;
+    margin-left: 0.4rem;
+  }
+  .change-city {
+    right: 0.4rem;
+    font-size: 0.6rem;
+    color: #fff;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .head-login {
+  float: right;
+  margin-right: .2rem;
+  height: 2rem;
+  line-height:2rem;
+  .login-span {
+    color: #fff;
+    font-size: .15rem;
+  }
+}
 }
 </style>
