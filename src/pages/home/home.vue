@@ -5,13 +5,13 @@
     </headTop>
 
     <nav class="city-nav">
-      <!-- 这里需要接入定位的api -->
+      
       <div class="city-tip">
         <span>当前定位城市：</span>
         <span>定位不准时，请在城市列表中选择</span>
       </div>
       <!-- 这里需要配置跳转地址啥啥啥的 -->
-      <router-link :to="'/city/'+ guessCityid" class="guess-city">
+      <router-link :to="'/city/'+guessCityid" class="guess-city">
         <span>{{guessCity}}</span>
         <i class="arrow-right"></i>
       </router-link>

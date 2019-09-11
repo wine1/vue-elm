@@ -4,9 +4,11 @@ const home = r =>
   require.ensure([], () => r(require("../pages/home/home")), "home");
 const city = r =>
   require.ensure([], () => r(require("../pages/city/city")), "city");
-const login = r=> {
-  require.ensure([], () => r(require("../pages/login/login")),"login");
-}
+const login = r =>
+  require.ensure([], () => r(require("../pages/login/login")), "login");
+
+const forget = r =>
+  require.ensure([], () => r(require("../pages/forget/forget")), "forget");
 
 export default [
   {
@@ -31,8 +33,13 @@ export default [
       },
       // 登录页
       {
-        path:"/login",
+        path: "/login",
         component: login
+      },
+      // 忘记密码页
+      {
+        path: "/forget",
+        component: forget
       }
     ]
   }

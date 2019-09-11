@@ -71,7 +71,9 @@ export default {
 
   methods: {
     getCaptchaCode() {},
-    buttonSwitch() {},
+    buttonSwitch() {
+
+    },
     getVerifyCode() {}
   }
 };
