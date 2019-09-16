@@ -35,28 +35,35 @@
     </form>
     <div class="login-tips">温馨提示：未注册过的账号，登录时将自动注册</div>
     <div class="login-tips">注册过的用户可凭账号密码登录</div>
-    <div class="login-btn">登陆</div>
+    <div class="login-btn" @click="mobileLogin">登陆</div>
     <router-link class="reset-password" to="/forget" v-if="!loginWay">重置密码</router-link>
+
+    <alertTip v-if="showAlert" :alertText='alertText'></alertTip>
   </div>
 </template>
 <script>
 import headTop from "../../components/header/head";
-
+import alertTip from "../../components/common/alertTip";
+import { getcaptchas,accountLogin } from "../../service/getData";
 export default {
   name: "login",
   components: {
-    headTop
+    headTop,
+    alertTip
   },
   data() {
     return {
-      loginWay: false, // 登录方式
+      loginWay: false, // 登录方式 true为手机号登陆 false为账号密码登陆
       phoneNumber: "", //电话号码
       mobileCode: "", //短信验证码
       computedTime: "", //倒数计时
       captchaCodeImg: "", //验证图片
       userAccount: "", //用户名
       passWord: "", //密码
-      codeNumber: "" //验证码
+      codeNumber: "", //验证码
+      userInfo:null,//用户信息
+      showAlert: false,
+      alertText:null,
     };
   },
 
@@ -70,11 +77,42 @@ export default {
   },
 
   methods: {
-    getCaptchaCode() {},
-    buttonSwitch() {
-
+    // 获取验证码
+    async getCaptchaCode() {
+      let res = await getcaptchas();
+      this.captchaCodeImg = res.code;
+      console.log(res);
     },
-    getVerifyCode() {}
+    buttonSwitch() {},
+    getVerifyCode() {},
+    async mobileLogin() {
+      if (this.loginWay) {
+        console.log("手机号登陆");
+      } else {
+        if (!this.userAccount) {
+          this.showAlert=true;
+          this.alertText="请输入用户名";
+          console.log("请输入用户名");
+          return;
+        } else if (!this.passWord) {
+          this.showAlert=true;
+          this.alertText="请输入密码";
+          console.log("请输入密码");
+          return;
+        } else if (!this.codeNumber) {
+          this.showAlert=true;
+          this.alertText="请输入验证码";
+          console.log("请输入验证码");
+          return;
+        }else {
+          this.userInfo=await accountLogin(this.userAccount,this.passWord,this.codeNumber);
+          console.log(this.userInfo);
+        }
+      }
+      if(this.userInfo.user_id) {
+
+      }
+    }
   }
 };
 </script>
