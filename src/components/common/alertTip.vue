@@ -1,6 +1,6 @@
 <template>
   <div class="alert">
-    <div class="text">{{alertText}}</div>
+    <div class="text">{{text}}</div>
   </div>
 </template>
 
@@ -8,11 +8,10 @@
 export default {
   data() {
     return {
-      showAlert: false,
-      alertText: null
+      // text: null
     };
   },
-  props: ["alertText"]
+  props: ["text"]
 };
 </script>
 

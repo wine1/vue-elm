@@ -38,7 +38,7 @@
     <div class="login-btn" @click="mobileLogin">登陆</div>
     <router-link class="reset-password" to="/forget" v-if="!loginWay">重置密码</router-link>
 
-    <alertTip v-if="showAlert" :alertText='alertText'></alertTip>
+    <alertTip v-if="showAlert" :text='alertText'></alertTip>
   </div>
 </template>
 <script>
@@ -81,7 +81,7 @@ export default {
     async getCaptchaCode() {
       let res = await getcaptchas();
       this.captchaCodeImg = res.code;
-      console.log(res);
+      // console.log(res);
     },
     buttonSwitch() {},
     getVerifyCode() {},
@@ -93,7 +93,6 @@ export default {
           this.showAlert=true;
           this.alertText="请输入用户名";
           console.log("请输入用户名");
-          return;
         } else if (!this.passWord) {
           this.showAlert=true;
           this.alertText="请输入密码";
@@ -108,10 +107,12 @@ export default {
           this.userInfo=await accountLogin(this.userAccount,this.passWord,this.codeNumber);
           console.log(this.userInfo);
         }
+        
+          setTimeout(function(){this.showAlert=false;console.log(1)},3000);
       }
-      if(this.userInfo.user_id) {
+      // if(this.userInfo.user_id) {
 
-      }
+      // }
     }
   }
 };
