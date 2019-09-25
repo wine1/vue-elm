@@ -1,6 +1,7 @@
 <template>
   <div class="alert">
     <div class="text">{{alertText}}</div>
+    <i class="closeAlert"></i>
   </div>
 </template>
 
