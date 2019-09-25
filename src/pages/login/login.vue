@@ -38,13 +38,18 @@
     <div class="login-btn" @click="mobileLogin">登陆</div>
     <router-link class="reset-password" to="/forget" v-if="!loginWay">重置密码</router-link>
 
+<<<<<<< HEAD
     <alertTip v-if="showAlert" :text='alertText'></alertTip>
+=======
+    <alertTip v-if="showAlert" :alertText="alertText"></alertTip>
+>>>>>>> f91e6c5f59fd49370122ec8a8d72583adda7af0e
   </div>
 </template>
 <script>
 import headTop from "../../components/header/head";
 import alertTip from "../../components/common/alertTip";
-import { getcaptchas,accountLogin } from "../../service/getData";
+import { getcaptchas, accountLogin } from "../../service/getData";
+// import { mapState, mapMutations } from "vuex";
 export default {
   name: "login",
   components: {
@@ -61,9 +66,9 @@ export default {
       userAccount: "", //用户名
       passWord: "", //密码
       codeNumber: "", //验证码
-      userInfo:null,//用户信息
+      userInfo: null, //用户信息
       showAlert: false,
-      alertText:null,
+      alertText: null
     };
   },
 
@@ -90,29 +95,43 @@ export default {
         console.log("手机号登陆");
       } else {
         if (!this.userAccount) {
-          this.showAlert=true;
-          this.alertText="请输入用户名";
+          this.showAlert = true;
+          this.alertText = "请输入用户名";
           console.log("请输入用户名");
         } else if (!this.passWord) {
-          this.showAlert=true;
-          this.alertText="请输入密码";
+          this.showAlert = true;
+          this.alertText = "请输入密码";
           console.log("请输入密码");
           return;
         } else if (!this.codeNumber) {
-          this.showAlert=true;
-          this.alertText="请输入验证码";
+          this.showAlert = true;
+          this.alertText = "请输入验证码";
           console.log("请输入验证码");
           return;
-        }else {
-          this.userInfo=await accountLogin(this.userAccount,this.passWord,this.codeNumber);
+        } else {
+          this.userInfo = await accountLogin(
+            this.userAccount,
+            this.passWord,
+            this.codeNumber
+          );
           console.log(this.userInfo);
         }
         
           setTimeout(function(){this.showAlert=false;console.log(1)},3000);
       }
+<<<<<<< HEAD
       // if(this.userInfo.user_id) {
 
       // }
+=======
+      if (this.userInfo.user_id) {
+        this.showAlert = true;
+        this.alertText = this.userInfo.message;
+        if (!this.loginWay) this.getCaptchaCode();
+      } else {
+        this.$router.go(-1);
+      }
+>>>>>>> f91e6c5f59fd49370122ec8a8d72583adda7af0e
     }
   }
 };

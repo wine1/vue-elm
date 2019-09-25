@@ -1,6 +1,11 @@
 <template>
   <div class="alert">
+<<<<<<< HEAD
     <div class="text">{{text}}</div>
+=======
+    <div class="text">{{alertText}}</div>
+    <i class="closeAlert"></i>
+>>>>>>> f91e6c5f59fd49370122ec8a8d72583adda7af0e
   </div>
 </template>
 
