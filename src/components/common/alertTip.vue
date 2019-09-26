@@ -1,11 +1,7 @@
 <template>
   <div class="alert">
-<<<<<<< HEAD
-    <div class="text">{{text}}</div>
-=======
     <div class="text">{{alertText}}</div>
-    <i class="closeAlert"></i>
->>>>>>> f91e6c5f59fd49370122ec8a8d72583adda7af0e
+    <div class="closeAlert" @click="closeTip">确认</div>
   </div>
 </template>
 
@@ -16,7 +12,12 @@ export default {
       // text: null
     };
   },
-  props: ["text"]
+  props: ["alertText"],
+  methods:{
+    closeTip(){
+      this.$emit('closeTip')
+    }
+  }
 };
 </script>
 
@@ -25,16 +26,21 @@ export default {
   position: fixed;
   top: 30%;
   width: 70%;
-  height: 8rem;
   margin: 0 15%;
   color: #fff;
   background: rgba(0, 0, 0, 0.7);
   border-radius: 0.2rem;
   text-align: center;
-  line-height: 8rem;
   .text {
-      color:#fff;
-      font-size: .7rem;
+    color: #fff;
+    font-size: .7rem;
+    line-height: 5rem;
+  }
+  .closeAlert {
+    text-align: center;
+    font-size: 0.7rem;
+    line-height: 2rem;
+    color:#3190e8;
   }
 }
 </style>

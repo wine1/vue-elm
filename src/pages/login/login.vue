@@ -38,18 +38,14 @@
     <div class="login-btn" @click="mobileLogin">登陆</div>
     <router-link class="reset-password" to="/forget" v-if="!loginWay">重置密码</router-link>
 
-<<<<<<< HEAD
-    <alertTip v-if="showAlert" :text='alertText'></alertTip>
-=======
-    <alertTip v-if="showAlert" :alertText="alertText"></alertTip>
->>>>>>> f91e6c5f59fd49370122ec8a8d72583adda7af0e
+    <alertTip v-if="showAlert" :alertText="alertText" @closeTip="closeTip"></alertTip>
   </div>
 </template>
 <script>
 import headTop from "../../components/header/head";
 import alertTip from "../../components/common/alertTip";
 import { getcaptchas, accountLogin } from "../../service/getData";
-// import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations } from "vuex";
 export default {
   name: "login",
   components: {
@@ -82,6 +78,7 @@ export default {
   },
 
   methods: {
+    ...mapMutations(["RECORD_USERINFO"]),
     // 获取验证码
     async getCaptchaCode() {
       let res = await getcaptchas();
@@ -90,6 +87,9 @@ export default {
     },
     buttonSwitch() {},
     getVerifyCode() {},
+    closeTip() {
+      this.showAlert = false;
+    },
     async mobileLogin() {
       if (this.loginWay) {
         console.log("手机号登陆");
@@ -116,22 +116,20 @@ export default {
           );
           console.log(this.userInfo);
         }
-        
-          setTimeout(function(){this.showAlert=false;console.log(1)},3000);
-      }
-<<<<<<< HEAD
-      // if(this.userInfo.user_id) {
 
-      // }
-=======
+        setTimeout(function() {
+          this.showAlert = false;
+          console.log(1);
+        }, 3000);
+      }
       if (this.userInfo.user_id) {
         this.showAlert = true;
         this.alertText = this.userInfo.message;
         if (!this.loginWay) this.getCaptchaCode();
       } else {
+        this.RECORD_USERINFO(this.userInfo);
         this.$router.go(-1);
       }
->>>>>>> f91e6c5f59fd49370122ec8a8d72583adda7af0e
     }
   }
 };
