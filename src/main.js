@@ -6,6 +6,7 @@ import VueRouter from "vue-router";
 import routes from "./router/routes";
 import {routerMode} from './config/env';
 import './config/rem';
+import store from "./store/index";
 
 Vue.config.productionTip = false;
 
@@ -14,6 +15,7 @@ const router = new VueRouter({
   routes,
   mode:routerMode,
   strict: process.env.NODE_ENV !== "production",
+  store:store,
   scrollBehavior(to, from, savedposition) {
     if (savedposition) {
       return savedposition;

@@ -74,7 +74,8 @@ export default {
   computed: {
     rightPhoneNumber: function() {
       return /^1\d{10}$/gi.test(this.phoneNumber);
-    }
+    },
+    ...mapState({})
   },
 
   methods: {
