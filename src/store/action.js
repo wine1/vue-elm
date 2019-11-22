@@ -9,7 +9,7 @@ import {
 
 
 export default {
-    async GET_USERINFO({
+    async getUserInfo({
         commit, state
     }) {
         let res=await getUser();

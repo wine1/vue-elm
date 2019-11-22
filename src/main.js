@@ -15,7 +15,6 @@ const router = new VueRouter({
   routes,
   mode:routerMode,
   strict: process.env.NODE_ENV !== "production",
-  store:store,
   scrollBehavior(to, from, savedposition) {
     if (savedposition) {
       return savedposition;
@@ -32,6 +31,7 @@ const router = new VueRouter({
 new Vue({
   el: "#app",
   router,
+  store,
   components: { App },
   template: "<App/>"
 });

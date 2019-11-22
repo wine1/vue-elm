@@ -11,11 +11,11 @@
       <span class="title-text">{{headTitle}}</span>
     </section>
 
-    <router-link :to="userInfo? '/profile':'/login'" v-if='signinUp' class="head-login">
+    <router-link :to="userInfo? '/profile':'/login'" v-if="signinUp" class="head-login">
       <div v-if="signinUp" class="head-login">
-        <div class="user-avatar" v-if="userInfo">
-          <i class="entrance-icon"></i>
-        </div>
+        <svg class="user_avatar" v-if="userInfo">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user" />
+        </svg>
         <span class="login-span" v-else>登录|注册</span>
       </div>
     </router-link>
@@ -29,14 +29,24 @@
 
 
 <script>
+import { mapState, mapActions } from "vuex";
 export default {
   name: "headTop",
   data() {
     return {
-      userInfo:''
+      // userInfo: ""
     };
   },
-  props: ["goBack","headTitle","signinUp"]
+  mounted() {
+    this.getUserInfo();
+  },
+  props: ["goBack", "headTitle", "signinUp"],
+  computed: {
+    ...mapState(["userInfo"])
+  },
+  methods: {
+    ...mapActions(["getUserInfo"])
+  }
 };
 </script>
 
@@ -86,14 +96,14 @@ export default {
     transform: translateY(-50%);
   }
   .head-login {
-  float: right;
-  margin-right: .2rem;
-  height: 2rem;
-  line-height:2rem;
-  .login-span {
-    color: #fff;
-    font-size: .15rem;
+    float: right;
+    margin-right: 0.2rem;
+    height: 2rem;
+    line-height: 2rem;
+    .login-span {
+      color: #fff;
+      font-size: 0.15rem;
+    }
   }
-}
 }
 </style>

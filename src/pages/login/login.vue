@@ -74,17 +74,17 @@ export default {
   computed: {
     rightPhoneNumber: function() {
       return /^1\d{10}$/gi.test(this.phoneNumber);
-    },
-    ...mapState({})
+    }
+    // ...mapState({})
   },
 
   methods: {
-    ...mapMutations(["RECORD_USERINFO"]),
+    ...mapMutations(["RECORD_USERINFO","GET_USERINFO"]),
     // 获取验证码
     async getCaptchaCode() {
       let res = await getcaptchas();
       this.captchaCodeImg = res.code;
-      // console.log(res);
+      console.log(res);
     },
     buttonSwitch() {},
     getVerifyCode() {},
@@ -118,12 +118,11 @@ export default {
           console.log(this.userInfo);
         }
 
-        setTimeout(function() {
-          this.showAlert = false;
-          console.log(1);
-        }, 3000);
+        // setTimeout(function() {
+        //   this.showAlert = false;
+        // }, 3000);
       }
-      if (this.userInfo.user_id) {
+      if (!this.userInfo.user_id) {
         this.showAlert = true;
         this.alertText = this.userInfo.message;
         if (!this.loginWay) this.getCaptchaCode();
