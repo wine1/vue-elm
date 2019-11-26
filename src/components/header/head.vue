@@ -13,9 +13,10 @@
 
     <router-link :to="userInfo? '/profile':'/login'" v-if="signinUp" class="head-login">
       <div v-if="signinUp" class="head-login">
-        <svg class="user_avatar" v-if="userInfo">
+        <div class="user_avatar" v-if="userInfo">
+          <img src="../../images/people.png" alt="">
           <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user" />
-        </svg>
+        </div>
         <span class="login-span" v-else>登录|注册</span>
       </div>
     </router-link>
@@ -103,6 +104,15 @@ export default {
     .login-span {
       color: #fff;
       font-size: 0.15rem;
+    }
+  }
+  .user_avatar {
+    height: 1rem;
+    width: 1rem;
+    vertical-align: middle;
+    img {
+      width: 100%;
+      height: 100%;
     }
   }
 }

@@ -84,7 +84,6 @@ export default {
     async getCaptchaCode() {
       let res = await getcaptchas();
       this.captchaCodeImg = res.code;
-      console.log(res);
     },
     buttonSwitch() {},
     getVerifyCode() {},

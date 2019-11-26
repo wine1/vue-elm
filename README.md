@@ -22,7 +22,8 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 开发进度：
     √ 定位以及城市选择（暂时没有实现获取真实位置）
-    登录及注册
+    √ 登录及注册
+    个人页
     首页
 
 

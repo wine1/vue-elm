@@ -1,4 +1,6 @@
 import fetch from "../config/fetch";
+import getStore from "../config/mUtils";
+import setStore from "../config/mUtils";
 
 // 请求实例  https://elm.cangdu.org/v1/cities?type=guess
 
@@ -21,10 +23,10 @@ export const groupcity = () => fetch("/v1/cities", {
 export const currentcity = number => fetch("/v1/cities/" + number);
 
 //   获取用户信息
-export const getUser = () =>
-  fetch("/v1/user", {
-    user_id: getStore("user_id")
-  });
+// export const getUser = () =>
+//   fetch("/v1/user", {
+//     user_id: getStore("user_id"),
+//   });
 
 // 个人中心里编辑地址
 export const getAddressList = user_id =>
@@ -351,7 +353,7 @@ export const exChangeHongbao = (id, exchange_code, captcha_code) => fetch('/v1/u
  * 获取用户信息
  */
 
-// export const getUser = () => fetch('/v1/user', {user_id: getStore('user_id')});
+export const getUser = () => fetch('/v1/user');
 
 
 /**
