@@ -10,6 +10,9 @@ const login = r =>
 const forget = r =>
   require.ensure([], () => r(require("../pages/forget/forget")), "forget");
 
+const profile = r =>
+  require.ensure([], () => r(require("../pages/profile/profile")), "profile");
+
 export default [
   {
     path: "/",
@@ -40,6 +43,10 @@ export default [
       {
         path: "/forget",
         component: forget
+      },
+      {
+        path: "/profile",
+        component: profile
       }
     ]
   }
