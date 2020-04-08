@@ -6,9 +6,10 @@ const city = r =>
   require.ensure([], () => r(require("../pages/city/city")), "city");
 const login = r =>
   require.ensure([], () => r(require("../pages/login/login")), "login");
-
 const forget = r =>
   require.ensure([], () => r(require("../pages/forget/forget")), "forget");
+  const profile = r =>
+  require.ensure([], () => r(require("../pages/profile/profile")), "forget");
 
 export default [
   {
@@ -40,6 +41,11 @@ export default [
       {
         path: "/forget",
         component: forget
+      },
+       // 个人页
+       {
+        path: "/profile",
+        component: profile
       }
     ]
   }

@@ -18,7 +18,7 @@
         <input type="text" placeholder="请输入您的账号" v-model="userAccount" />
       </section>
       <section class="input-container">
-        <input type="text" placeholder="请输入您的密码" v-model="passWord" />
+        <input      type="text" placeholder="请输入您的密码" v-model="passWord" />
         <div class="button-switch" @click="buttonSwitch">
           <div class="circle-btn"></div>
           <span>abc···</span>
