@@ -14,7 +14,7 @@
     <router-link :to="userInfo? '/profile':'/login'" v-if="signinUp" class="head-login">
       <div v-if="signinUp" class="head-login">
         <div class="user_avatar" v-if="userInfo">
-          <img src="../../images/people.png" alt="">
+          <img src="../../images/people.png" alt />
           <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user" />
         </div>
         <span class="login-span" v-else>登录|注册</span>
@@ -23,7 +23,7 @@
 
     <slot name="edit"></slot>
     <slot name="msite-title"></slot>
-    <slot name="changecity"></slot> 
+    <slot name="changecity"></slot>
     <slot name="changeLogin"></slot>
   </div>
 </template>
@@ -99,11 +99,12 @@ export default {
   .head-login {
     float: right;
     margin-right: 0.2rem;
+    font-size: 0.7rem;
     height: 2rem;
     line-height: 2rem;
     .login-span {
       color: #fff;
-      font-size: 0.15rem;
+      font-size: 0.7rem;
     }
   }
   .user_avatar {
