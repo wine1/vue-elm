@@ -1,7 +1,8 @@
 <template>
   <div id="head-top">
-    <slot name="logo"></slot>
-    <slot name="search"></slot>
+    <slot class="" name="logo"></slot>
+    <slot name="search">
+    </slot>
 
     <section class="head-goback" v-if="goBack" @click="$router.go(-1)">
       <i class="arrow-left"></i>
@@ -14,7 +15,7 @@
     <router-link :to="userInfo? '/profile':'/login'" v-if="signinUp" class="head-login">
       <div v-if="signinUp" class="head-login">
         <div class="user_avatar" v-if="userInfo">
-          <img src="../../images/people.png" alt="">
+          <img src="../../images/people.png" alt />
           <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user" />
         </div>
         <span class="login-span" v-else>登录|注册</span>
@@ -30,12 +31,13 @@
 
 
 <script>
+import { imgBaseUrl } from "../../../src/config/env";
 import { mapState, mapActions } from "vuex";
 export default {
   name: "headTop",
   data() {
     return {
-      // userInfo: ""
+      imgBaseUrl
     };
   },
   mounted() {
@@ -59,7 +61,8 @@ export default {
   height: 2rem;
   top: 0;
   left: 0;
-  background: #3190e8;
+  background: #3381e3;
+  border-bottom: 1px solid #eee;
 
   .entrance-icon {
     float: right;

@@ -26,10 +26,10 @@
 
     <header v-if="historytitle" class="pois-search-history">搜索历史</header>
 
-    <ul class="getpois-ul">
-      <li v-for="(item,index) in placelist" @click="nextpage(index, item.geohash)" :key="index">
-        <h4 class="pois-name ellipsis">{{item.name}}</h4>
-        <p class="pois-address ellipsis">{{item.address}}</p>
+    <ul class="getpois_ul" v-if="placelist&&placelist.length">
+      <li v-for="(item,index) in placelist" @click="nextpage( item.geohash)" :key="index">
+        <h4 class="pois_name ellipsis">{{item.name}}</h4>
+        <p class="pois_address ellipsis">{{item.address}}</p>
       </li>
     </ul>
 
@@ -40,7 +40,11 @@
 </template>
 <script>
 import headTop from "../../components/header/head";
-import { currentcity, searchPlace } from "../../../src/service/getData";
+import {
+  currentcity,
+  searchPlace,
+  msiteAddress
+} from "../../../src/service/getData";
 import { getStore, setStore, removeStore } from "../../config/mUtils";
 
 export default {
@@ -65,11 +69,26 @@ export default {
     currentcity(this.cityid).then(res => {
       this.cityname = res.name;
     });
-    // this.initData();
   },
 
   methods: {
-    postpois() {}
+    postpois() {
+      if (this.inputValue) {
+        searchPlace(this.cityid, this.inputValue).then(res => {
+          this.placelist = res;
+          console.log(res);
+        });
+      } else {
+        return;
+      }
+    },
+
+    nextpage(geohash) {
+      msiteAddress(geohash).then(res => {
+        console.log(res);
+        let addressDetail=res
+      });
+    }
   }
 };
 </script>
@@ -123,6 +142,18 @@ export default {
       padding-top: 0.65rem;
       border-bottom: 1px solid #e4e4e4;
     }
+  }
+  .pois_name {
+    margin: 0 auto 0.35rem;
+    width: 90%;
+    font-size: 0.65rem;
+    color: #333;
+  }
+  .pois_address {
+    width: 90%;
+    margin: 0 auto 0.55rem;
+    font-size: 0.45rem;
+    color: #999;
   }
 }
 </style>

@@ -10,6 +10,14 @@ const login = r =>
 const forget = r =>
   require.ensure([], () => r(require("../pages/forget/forget")), "forget");
 
+const msite = r =>
+  require.ensure([], () => r(require("../pages/msite/msite")), "msite");
+
+const search = r =>
+  require.ensure([], () => r(require("../pages/search/search")), "search");
+const order = r =>
+  require.ensure([], () => r(require("../pages/order/order")), "order");
+
 const profile = r =>
   require.ensure([], () => r(require("../pages/profile/profile")), "profile");
 
@@ -43,6 +51,18 @@ export default [
       {
         path: "/forget",
         component: forget
+      },
+      {
+        path: "/msite",
+        component: msite
+      },
+      {
+        path: "/search",
+        component: search
+      },
+      {
+        path: "/order",
+        component: order
       },
       {
         path: "/profile",
