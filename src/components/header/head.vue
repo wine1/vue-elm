@@ -102,11 +102,12 @@ export default {
   .head-login {
     float: right;
     margin-right: 0.2rem;
+    font-size: 0.7rem;
     height: 2rem;
     line-height: 2rem;
     .login-span {
       color: #fff;
-      font-size: 0.15rem;
+      font-size: 0.7rem;
     }
   }
   .user_avatar {
