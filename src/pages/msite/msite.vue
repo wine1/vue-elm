@@ -6,10 +6,10 @@
         <circle cx="8" cy="8" r="7" stroke="rgb(255,255,255)" stroke-width="1" fill="none" />
         <line x1="14" y1="14" x2="20" y2="20" style="stroke:rgb(255,255,255);stroke-width:2" />
       </svg>
-    </router-link> -->
+    </router-link>-->
     <!-- <router-link :to="home" slot="changecity">
       <p>{{headerAddress}}</p>
-    </router-link> -->
+    </router-link>-->
   </headTop>
   <footerGuide></footerGuide>
 </html>
@@ -25,9 +25,12 @@ export default {
   components: { headTop, footerGuide },
   data() {
     return {
-        headerAddress:'123'
-
+      headerAddress: "123"
     };
+  },
+
+  mounted: function() {
+    console.log(this.$router.query);
   }
 };
 </script>

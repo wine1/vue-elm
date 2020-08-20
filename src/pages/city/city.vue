@@ -84,9 +84,13 @@ export default {
     },
 
     nextpage(geohash) {
-      msiteAddress(geohash).then(res => {
-        console.log(res);
-        let addressDetail=res
+      // msiteAddress(geohash).then(res => {
+      //   console.log(res);
+      //   let addressDetail = res;
+      // });
+      this.$router.push({
+        path: `/msite`,
+        query: { geohash }
       });
     }
   }
@@ -127,33 +131,35 @@ export default {
     font-size: 0.65rem;
     color: #fff;
   }
+}
 
-  .pois_search_history {
-    border-top: 1px solid #e4e4e4;
+.pois_search_history {
+  border-top: 1px solid #e4e4e4;
+  border-bottom: 1px solid #e4e4e4;
+  padding-left: 0.5rem;
+  font: 0.475rem/0.8rem Microsoft YaHei;
+}
+
+.getpois_ul {
+  background-color: #fff;
+  border-top: 1px solid #e4e4e4;
+  text-align: left;
+  li {
+    margin: 0 auto;
+    padding-top: 0.65rem;
     border-bottom: 1px solid #e4e4e4;
-    padding-left: 0.5rem;
-    font: 0.475rem/0.8rem Microsoft YaHei;
   }
-  .getpois_ul {
-    background-color: #fff;
-    border-top: 1px solid #e4e4e4;
-    li {
-      margin: 0 auto;
-      padding-top: 0.65rem;
-      border-bottom: 1px solid #e4e4e4;
-    }
-  }
-  .pois_name {
-    margin: 0 auto 0.35rem;
-    width: 90%;
-    font-size: 0.65rem;
-    color: #333;
-  }
-  .pois_address {
-    width: 90%;
-    margin: 0 auto 0.55rem;
-    font-size: 0.45rem;
-    color: #999;
-  }
+}
+.pois_name {
+  margin: 0 auto 0.35rem;
+  width: 90%;
+  font-size: 0.65rem;
+  color: #333;
+}
+.pois_address {
+  width: 90%;
+  margin: 0 auto 0.55rem;
+  font-size: 0.45rem;
+  color: #999;
 }
 </style>
