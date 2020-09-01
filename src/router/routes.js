@@ -8,7 +8,7 @@ const login = r =>
   require.ensure([], () => r(require("../pages/login/login")), "login");
 const forget = r =>
   require.ensure([], () => r(require("../pages/forget/forget")), "forget");
-  const profile = r =>
+const profile = r =>
   require.ensure([], () => r(require("../pages/profile/profile")), "forget");
 
 const msite = r =>
@@ -18,7 +18,7 @@ const search = r =>
   require.ensure([], () => r(require("../pages/search/search")), "search");
 const order = r =>
   require.ensure([], () => r(require("../pages/order/order")), "order");
-
+const info = r => require.ensure([], () => r(require('../pages/profile/children/info')), 'info')
 export default [
   {
     path: "/",
@@ -64,7 +64,13 @@ export default [
       },
       {
         path: "/profile",
-        component: profile
+        component: profile,
+        children: [
+          {
+            path: "/info",
+            component: info
+          }
+        ]
       }
     ]
   }
