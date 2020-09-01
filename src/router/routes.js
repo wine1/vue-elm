@@ -6,9 +6,10 @@ const city = r =>
   require.ensure([], () => r(require("../pages/city/city")), "city");
 const login = r =>
   require.ensure([], () => r(require("../pages/login/login")), "login");
-
 const forget = r =>
   require.ensure([], () => r(require("../pages/forget/forget")), "forget");
+  const profile = r =>
+  require.ensure([], () => r(require("../pages/profile/profile")), "forget");
 
 const msite = r =>
   require.ensure([], () => r(require("../pages/msite/msite")), "msite");
@@ -17,9 +18,6 @@ const search = r =>
   require.ensure([], () => r(require("../pages/search/search")), "search");
 const order = r =>
   require.ensure([], () => r(require("../pages/order/order")), "order");
-
-const profile = r =>
-  require.ensure([], () => r(require("../pages/profile/profile")), "profile");
 
 export default [
   {

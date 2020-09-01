@@ -18,5 +18,4 @@ if (process.env.NODE_ENV == "development") {
 	baseUrl = '//elm.cangdu.org';
   imgBaseUrl = 'https://elm.cangdu.org/img/';
 }
-
 export { baseUrl, routerMode, imgBaseUrl };
