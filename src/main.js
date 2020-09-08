@@ -4,16 +4,22 @@ import Vue from "vue";
 import App from "./App";
 import VueRouter from "vue-router";
 import routes from "./router/routes";
-import {routerMode} from './config/env';
-import './config/rem';
+import { routerMode } from "./config/env";
+import "./config/rem";
 import store from "./store/index";
-
 Vue.config.productionTip = false;
+
+import VueAwesomeSwiper from "vue-awesome-swiper";
+require("swiper/swiper.scss");
+// If you use Swiper 6.0.0 or higher
+require("swiper/swiper-bundle.css");
+
+Vue.use(VueAwesomeSwiper);
 
 Vue.use(VueRouter);
 const router = new VueRouter({
   routes,
-  mode:routerMode,
+  mode: routerMode,
   strict: process.env.NODE_ENV !== "production",
   scrollBehavior(to, from, savedposition) {
     if (savedposition) {

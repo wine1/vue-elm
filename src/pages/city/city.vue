@@ -88,6 +88,7 @@ export default {
       //   console.log(res);
       //   let addressDetail = res;
       // });
+      console.log(geohash)
       this.$router.push({
         path: `/msite`,
         query: { geohash }

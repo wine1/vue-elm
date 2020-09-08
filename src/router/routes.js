@@ -9,7 +9,7 @@ const login = r =>
 const forget = r =>
   require.ensure([], () => r(require("../pages/forget/forget")), "forget");
 const profile = r =>
-  require.ensure([], () => r(require("../pages/profile/profile")), "forget");
+  require.ensure([], () => r(require("../pages/profile/profile")), "profile");
 
 const msite = r =>
   require.ensure([], () => r(require("../pages/msite/msite")), "msite");
@@ -67,7 +67,7 @@ export default [
         component: profile,
         children: [
           {
-            path: "/info",
+            path: "info",
             component: info
           }
         ]

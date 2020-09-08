@@ -13,17 +13,15 @@
   </headTop>
 
   <div class="wrap_main">
-    <div class="swiper-container">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <img src="../../images/people.png" alt />
+    <swiper class="swiper" :options="swiperOption" ref="mySwiper">
+      <swiper-slide>
+        <div class="typelist-li" v-for="item in typeList">
+          <img :src="item.image_url" alt />
+          <div>{{item.title}}</div>
         </div>
-        <div class="swiper-slide">
-          <img src="../../images/people.png" alt />
-          <!-- <img src="../../static/images/ad2.jpg" alt /> -->
-        </div>
-      </div>
-    </div>
+      </swiper-slide>
+      <div class="swiper-pagination" slot="pagination"></div>
+    </swiper>
   </div>
 
   <footerGuide></footerGuide>
@@ -35,42 +33,57 @@ import headTop from "../../components/header/head";
 import footerGuide from "../../components/footer/footGuide";
 // import { mapState, mapMutations } from "vuex";
 import { imgBaseUrl } from "../../../src/config/env";
-import { cityGuess } from "../../service/getData";
+import { cityGuess, msiteAddress, msiteFoodTypes } from "../../service/getData";
+
+import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 // import func from "../../../vue-temp/vue-editor-bridge";
 
-// import "../../plugins/swiper.min.js";
-// import "../../style/swiper.min.css";
-
 export default {
-  components: { headTop, footerGuide },
+  components: { headTop, footerGuide, Swiper, SwiperSlide },
   data() {
+    name: "msite";
     return {
-      headerAddress: "123",
-      geohash: ""
+      headerAddress: "",
+      geohash: "",
+      typeList: [],
+      swiper: [1, 2, 3],
+      swiperOption: {
+        autoplay: true,
+        speed: 1000,
+        direction: "horizontal",
+        pagination: { el: ".swiper-pagination", clickable: true }
+      }
     };
   },
 
   mounted: function() {
-    console.log(this.$router.query);
-    if (!this.$router.query) {
+    if (!this.$route.query) {
       cityGuess().then(res => {
-        console.log(res);
         this.headerAddress = res.name;
       });
     } else {
-      this.geohash = this.$router.query.geohash;
+      this.geohash = this.$route.query.geohash;
+      msiteAddress(this.geohash).then(res => {
+        this.headerAddress = res.name;
+      });
     }
 
-    //初始化swiper
-    //var mySwiper= new Swiper(".swiper-container", {
-    //   pagination: ".swiper-pagination",
-    //   loop: true
-    // });
+    this.getTypeList();
+  },
+
+  methods: {
+    async getTypeList() {
+      let res = await msiteFoodTypes(this.geohash);
+      if (res.length) {
+        this.typeList = res;
+      }
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+@import "swiper/swiper.scss";
 .link_search {
   float: left;
   height: 1rem;
@@ -83,6 +96,16 @@ export default {
   color: #fff;
   p {
     color: #fff;
+  }
+}
+.swiper {
+  margin-top: 2rem;
+  background-color: #fff;
+  border-bottom: 0.025rem solid #e4e4e4;
+  height: 10.6rem;
+  .swiper-slide {
+    height: 100%;
+    width: 100%;
   }
 }
 </style>
