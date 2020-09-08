@@ -12,10 +12,10 @@ let routerMode = "hash";
 let imgBaseUrl = "";
 
 if (process.env.NODE_ENV == "development") {
-  imgBaseUrl = "src/images/";
+  imgBaseUrl = "/img/";
 	baseUrl = 'https://elm.cangdu.org';
 } else if (process.env.NODE_ENV == "production") {
-	baseUrl = '//elm.cangdu.org';
+	baseUrl = 'https://elm.cangdu.org';
   imgBaseUrl = 'https://elm.cangdu.org/img/';
 }
 export { baseUrl, routerMode, imgBaseUrl };
