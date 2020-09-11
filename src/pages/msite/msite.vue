@@ -13,15 +13,27 @@
   </headTop>
 
   <div class="wrap_main">
+    <!-- 商品分类 -->
     <swiper class="swiper" :options="swiperOption" ref="mySwiper">
       <swiper-slide>
         <div class="typelist-li" v-for="item in typeList">
-          <img :src="item.image_url" alt />
+          <img :src="imgBaseUrl+item.image_url" alt />
           <div>{{item.title}}</div>
         </div>
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
+
+    <!-- 附近商家 -->
+    <div class="shop_list_container">
+      <header class="shop_header">
+        <svg class="shop_icon">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shop" />
+        </svg>
+        <span class="shop_header_title">附近商家</span>
+      </header>
+      <shop-list v-if="hasGetData" :geohash="geohash"></shop-list>
+    </div>
   </div>
 
   <footerGuide></footerGuide>
@@ -32,8 +44,12 @@
 import headTop from "../../components/header/head";
 import footerGuide from "../../components/footer/footGuide";
 // import { mapState, mapMutations } from "vuex";
-import { imgBaseUrl } from "../../../src/config/env";
-import { cityGuess, msiteAddress, msiteFoodTypes } from "../../service/getData";
+import {
+  cityGuess,
+  msiteAddress,
+  msiteFoodTypes,
+  shopList
+} from "../../service/getData";
 
 import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 // import func from "../../../vue-temp/vue-editor-bridge";
@@ -43,9 +59,11 @@ export default {
   data() {
     name: "msite";
     return {
+      imgBaseUrl: "https://fuss10.elemecdn.com", //图片域名地址
       headerAddress: "",
       geohash: "",
       typeList: [],
+      shopList: [],
       swiper: [1, 2, 3],
       swiperOption: {
         autoplay: true,
@@ -68,7 +86,10 @@ export default {
       });
     }
 
+    // 获取分类列表数据
     this.getTypeList();
+    //获取附近商铺列表
+    this.getShopList();
   },
 
   methods: {
@@ -76,14 +97,20 @@ export default {
       let res = await msiteFoodTypes(this.geohash);
       if (res.length) {
         this.typeList = res;
+        console.log("typeList", this.typeList);
       }
+    },
+    async getShopList() {
+      let res = await shopList(this.geohash);
+      this.shopList = res;
+      console.log("shopList", this.shopList);
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-@import "swiper/swiper.scss";
+@import "src/style/mixin";
 .link_search {
   float: left;
   height: 1rem;
@@ -106,6 +133,23 @@ export default {
   .swiper-slide {
     height: 100%;
     width: 100%;
+  }
+}
+.shop_list_container {
+  margin-top: 0.4rem;
+  border-top: 0.025rem solid $bc;
+  background-color: #fff;
+  .shop_header {
+    .shop_icon {
+      fill: #999;
+      margin-left: 0.6rem;
+      vertical-align: middle;
+      @include wh(0.6rem, 0.6rem);
+    }
+    .shop_header_title {
+      color: #999;
+      @include font(0.55rem, 1.6rem);
+    }
   }
 }
 </style>
