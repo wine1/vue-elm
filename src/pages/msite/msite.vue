@@ -7,9 +7,7 @@
         <line x1="14" y1="14" x2="20" y2="20" style="stroke:rgb(255,255,255);stroke-width:2" />
       </svg>
     </router-link>
-    <router-link to="/home" class="address" slot="changecity">
-      <p>{{headerAddress}}</p>
-    </router-link>
+    <router-link to="/home" class="address" slot="changecity">{{headerAddress}}</router-link>
   </headTop>
 
   <div class="wrap_main">
@@ -27,12 +25,9 @@
     <!-- 附近商家 -->
     <div class="shop_list_container">
       <header class="shop_header">
-        <svg class="shop_icon">
-          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shop" />
-        </svg>
         <span class="shop_header_title">附近商家</span>
       </header>
-      <shop-list v-if="hasGetData" :geohash="geohash"></shop-list>
+      <shopLists :shopLists="shopList"></shopLists>
     </div>
   </div>
 
@@ -43,7 +38,8 @@
 <script>
 import headTop from "../../components/header/head";
 import footerGuide from "../../components/footer/footGuide";
-// import { mapState, mapMutations } from "vuex";
+import shopLists from "../../components/common/shopLists";
+import { mapState, mapMutations } from "vuex";
 import {
   cityGuess,
   msiteAddress,
@@ -52,14 +48,11 @@ import {
 } from "../../service/getData";
 
 import { Swiper, SwiperSlide } from "vue-awesome-swiper";
-// import func from "../../../vue-temp/vue-editor-bridge";
-
 export default {
-  components: { headTop, footerGuide, Swiper, SwiperSlide },
+  components: { headTop, footerGuide, Swiper, SwiperSlide, shopLists },
   data() {
     name: "msite";
     return {
-      imgBaseUrl: "https://fuss10.elemecdn.com", //图片域名地址
       headerAddress: "",
       geohash: "",
       typeList: [],
@@ -70,22 +63,26 @@ export default {
         speed: 1000,
         direction: "horizontal",
         pagination: { el: ".swiper-pagination", clickable: true }
-      }
+      },
+      imgBaseUrl: "https://fuss10.elemecdn.com/"
     };
   },
 
-  mounted: function() {
+  created: function() {
     if (!this.$route.query) {
       cityGuess().then(res => {
         this.headerAddress = res.name;
+        this.geohash = address.latitude + "," + address.longitude;
       });
     } else {
       this.geohash = this.$route.query.geohash;
-      msiteAddress(this.geohash).then(res => {
-        this.headerAddress = res.name;
-      });
     }
 
+    this.SAVE_ADDRESS(this.geohash);
+    msiteAddress(this.geohash).then(res => {
+      this.headerAddress = res.name;
+    });
+    
     // 获取分类列表数据
     this.getTypeList();
     //获取附近商铺列表
@@ -93,7 +90,10 @@ export default {
   },
 
   methods: {
+    ...mapMutations(["SAVE_ADDRESS"]),
+    ...mapState([ 'geohash' ]),
     async getTypeList() {
+      console.log(111,this.geohash)
       let res = await msiteFoodTypes(this.geohash);
       if (res.length) {
         this.typeList = res;
@@ -118,12 +118,14 @@ export default {
   margin: 0.4rem;
 }
 .address {
+  display: inline-block;
+  width: 70%;
   line-height: 2rem;
   font-size: 0.8rem;
   color: #fff;
-  p {
-    color: #fff;
-  }
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .swiper {
   margin-top: 2rem;
@@ -136,7 +138,8 @@ export default {
   }
 }
 .shop_list_container {
-  margin-top: 0.4rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
   border-top: 0.025rem solid $bc;
   background-color: #fff;
   .shop_header {
@@ -149,6 +152,25 @@ export default {
     .shop_header_title {
       color: #999;
       @include font(0.55rem, 1.6rem);
+    }
+  }
+}
+
+.swiper {
+  .swiper-slide {
+    display: flex;
+    flex-wrap: wrap;
+    .typelist-li {
+      flex: 1;
+      margin: 0.5rem 0;
+      img {
+        height: 2rem;
+        width: 2rem;
+        margin: 0 1rem;
+      }
+      div {
+        font-size: 0.7rem;
+      }
     }
   }
 }

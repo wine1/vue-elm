@@ -1,8 +1,7 @@
 <template>
   <div id="head-top">
     <slot class="" name="logo"></slot>
-    <slot name="search">
-    </slot>
+    <slot name="search"></slot>
 
     <section class="head-goback" v-if="goBack" @click="$router.go(-1)">
       <i class="arrow-left"></i>
@@ -41,14 +40,15 @@ export default {
     };
   },
   mounted() {
-    this.getUserInfo();
+    // this.GET_USERINFO();
+    console.log(this.userInfo)
   },
   props: ["goBack", "headTitle", "signinUp"],
   computed: {
     ...mapState(["userInfo"])
   },
   methods: {
-    ...mapActions(["getUserInfo"])
+    // ...mapActions(["GET_USERINFO"])
   }
 };
 </script>
@@ -63,6 +63,7 @@ export default {
   left: 0;
   background: #3381e3;
   border-bottom: 1px solid #eee;
+  z-index: 1000;
 
   .entrance-icon {
     float: right;

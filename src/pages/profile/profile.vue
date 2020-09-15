@@ -34,8 +34,7 @@
       </router-link>
     </section>
 
-  <footerGuide></footerGuide>
-
+    <footerGuide></footerGuide>
   </div>
 </template>
 
@@ -46,7 +45,7 @@ import { mapState, mapMutations } from "vuex";
 import { imgBaseUrl } from "../../../src/config/env";
 // import func from "../../../vue-temp/vue-editor-bridge";
 export default {
-  components: { headTop,footerGuide },
+  components: { headTop, footerGuide },
   data() {
     return {
       profiletitle: "我的",
@@ -64,11 +63,14 @@ export default {
     ...mapState(["userInfo"])
   },
   mounted() {
+    this.GET_USERINFO();
     this.initData();
+    console.log(111,this.userInfo)
   },
   props: [],
 
   methods: {
+    ...mapMutations(["GET_USERINFO"]),
     initData() {
       console.log(this.userInfo);
       if (this.userInfo && this.userInfo.user_id) {
@@ -141,7 +143,7 @@ export default {
           vertical-align: middle;
           line-height: 0.75rem;
           .icon-mobile {
-            @include wh(100%,100%);
+            @include wh(100%, 100%);
             background: url("../../images/phone.png") no-repeat;
             background-size: 100% 100%;
           }
