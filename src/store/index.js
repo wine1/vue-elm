@@ -6,7 +6,8 @@ Vue.use(Vuex);
 
 const state = {
   userInfo: {},
-  geohash: "31.22299,121.36025" //地址geohash值
+  geohash: "31.22299,121.36025", //地址geohash值
+  searchHistory:[]
 };
 const store = new Vuex.Store({
   state,

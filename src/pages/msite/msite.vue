@@ -27,7 +27,7 @@
       <header class="shop_header">
         <span class="shop_header_title">附近商家</span>
       </header>
-      <shopLists :shopLists="shopList"></shopLists>
+      <shopLists :lists="shopList"></shopLists>
     </div>
   </div>
 
@@ -91,9 +91,8 @@ export default {
 
   methods: {
     ...mapMutations(["SAVE_ADDRESS"]),
-    ...mapState([ 'geohash' ]),
+    // ...mapState(['geohash']),
     async getTypeList() {
-      console.log(111,this.geohash)
       let res = await msiteFoodTypes(this.geohash);
       if (res.length) {
         this.typeList = res;

@@ -62,9 +62,7 @@
             
         },
         computed: {
-            ...mapState([
-                'geohash'
-            ]),
+            ...mapState(['geohash']),
         },
         methods: {
         	gotoAddress(path){

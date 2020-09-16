@@ -1,6 +1,6 @@
 <template>
   <div id="shop_list">
-    <div class="shop-list-info" v-for="item in shopLists">
+    <div class="shop-list-info" v-for="item in lists">
       <img class="image" :src="imgBaseUrl+item.image_path" alt />
       <div class="wrap-info">
         <div class="name">{{item.name}}</div>
@@ -15,7 +15,7 @@ export default {
   data() {
     return { imgBaseUrl };
   },
-  props: ["shopLists"],
+  props: ["lists"],
   methods: {}
 };
 </script>
@@ -25,13 +25,15 @@ export default {
   display: flex;
   padding: 1rem;
   border-bottom: 1px solid #eee;
+  background: #fff;
   .image {
     height: 4rem;
     width: 4rem;
-    margin-right: .5rem;
+    margin-right: 0.5rem;
   }
   .wrap-info {
     .name {
+      word-break: break-all;
     }
   }
 }

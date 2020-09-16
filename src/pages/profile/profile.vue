@@ -65,14 +65,12 @@ export default {
   mounted() {
     this.GET_USERINFO();
     this.initData();
-    console.log(111,this.userInfo)
   },
   props: [],
 
   methods: {
     ...mapMutations(["GET_USERINFO"]),
     initData() {
-      console.log(this.userInfo);
       if (this.userInfo && this.userInfo.user_id) {
         this.avatar = this.userInfo.avatar;
         this.username = this.userInfo.username;

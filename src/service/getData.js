@@ -83,11 +83,9 @@ export const shopList = (
 
 // 获取search页面搜索结果
 export const searchRestaurant = (geohash, keyword) =>
-  fetch("v4/restaurants", {
-    "extras[]": "restaurant_activity",
+  fetch("/v4/restaurants", {
     geohash,
     keyword,
-    type: "search"
   });
 
 // 获取food页面的 category 种类列表

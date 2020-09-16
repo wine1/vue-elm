@@ -1,6 +1,6 @@
 <template>
   <div id="head-top">
-    <slot class="" name="logo"></slot>
+    <slot class name="logo"></slot>
     <slot name="search"></slot>
 
     <section class="head-goback" v-if="goBack" @click="$router.go(-1)">
@@ -31,7 +31,7 @@
 
 <script>
 import { imgBaseUrl } from "../../../src/config/env";
-import { mapState, mapActions } from "vuex";
+import { mapState, mapMutations } from "vuex";
 export default {
   name: "headTop",
   data() {
@@ -40,15 +40,14 @@ export default {
     };
   },
   mounted() {
-    // this.GET_USERINFO();
-    console.log(this.userInfo)
+    this.GET_USERINFO();
   },
   props: ["goBack", "headTitle", "signinUp"],
   computed: {
     ...mapState(["userInfo"])
   },
   methods: {
-    // ...mapActions(["GET_USERINFO"])
+    ...mapMutations(["GET_USERINFO"])
   }
 };
 </script>

@@ -1,8 +1,9 @@
 
 <template>
 <html id="info">
-  <headTop></headTop>
-  <footerGuide></footerGuide>
+  <!-- <headTop></headTop>
+  <footerGuide></footerGuide> -->
+  <div>info</div>
 </html>
 </template>
 
