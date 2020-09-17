@@ -55,6 +55,7 @@ vue常见面试题
 4.v-show和v-if指令的共同点和不同点
 5.如何让CSS只在当前组件中起作用
 7.如何获取dom
+vm.$refs
 8.说出几种vue当中的指令和它的用法？
 9.vue-loader是什么？使用它的用途有哪些？
 10.为什么使用key
@@ -66,6 +67,8 @@ vue常见面试题
 16.分别简述computed和watch的使用场景
 17.v-on可以监听多个方法吗
 18.$nextTick的使用
+定义：在下次 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。
+
 19.vue组件中data为什么必须是一个函数
 20.vue事件对象的使用
 21 组件间的通信
@@ -108,19 +111,13 @@ vue常见面试题
 58.vue如何引进本地背景图片
 59.vue如何引进sass
 60.vue修改打包后静态资源路径的修改
-vuex常见面试题
 
+vuex常见面试题
 1.vuex是什么？怎么使用？哪种功能场景使用它？
+vuex是vue的全局状态管理器 通过`npm install vuex`安装之后 在main.js中引入store 
 2.vuex有哪几种属性
 3.不使用Vuex会带来什么问题
 4.Vue.js中ajax请求代码应该写在组件的methods中还是vuex的actions中？
 5.vuex一个例子方法
 6.Vuex中如何异步修改状态
 7.Vuex中actions和mutations的区别
-vue项目实战
-
-1.顶部悬停效果
-2.电话本列表效果（ 右边字母分类 上下滑动 旁边字母显示高亮）
-3.vue做代理
-4.Vue路由切换时的左滑和右滑效果示例
-ES6面试题

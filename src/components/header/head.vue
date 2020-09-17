@@ -61,7 +61,6 @@ export default {
   top: 0;
   left: 0;
   background: #3381e3;
-  border-bottom: 1px solid #eee;
   z-index: 1000;
 
   .entrance-icon {

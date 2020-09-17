@@ -16,9 +16,22 @@ const msite = r =>
 
 const search = r =>
   require.ensure([], () => r(require("../pages/search/search")), "search");
+const shop = r =>
+  require.ensure([], () => r(require("../pages/shop/shop")), "shop");
+const foodDetail = r =>
+  require.ensure(
+    [],
+    () => r(require("../pages/shop/children/foodDetail")),
+    "foodDetail"
+  );
 const order = r =>
   require.ensure([], () => r(require("../pages/order/order")), "order");
-const info = r => require.ensure([], () => r(require('../pages/profile/children/info')), 'info')
+const info = r =>
+  require.ensure(
+    [],
+    () => r(require("../pages/profile/children/info")),
+    "info"
+  );
 export default [
   {
     path: "/",
@@ -65,12 +78,12 @@ export default [
       {
         path: "/profile",
         component: profile,
-        children: [
-          {
-            path: "info",
-            component: info
-          }
-        ]
+        children: [{ path: "info", component: info }]
+      },
+      {
+        path: "/shop",
+        component: shop,
+        children: [{ path: "foodDetail", component: foodDetail }]
       }
     ]
   }

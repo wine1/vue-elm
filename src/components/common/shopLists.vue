@@ -1,10 +1,12 @@
 <template>
   <div id="shop_list">
-    <div class="shop-list-info" v-for="item in lists">
-      <img class="image" :src="imgBaseUrl+item.image_path" alt />
-      <div class="wrap-info">
-        <div class="name">{{item.name}}</div>
-      </div>
+    <div v-for="item in lists">
+      <router-link  class="shop-list-info"  :to="{path:'shop',query:{geohash,id:item.id}} " :key="item.id">
+        <img class="image" :src="imgBaseUrl+item.image_path" alt />
+        <div class="wrap-info">
+          <div class="name">{{item.name}}</div>
+        </div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -15,7 +17,7 @@ export default {
   data() {
     return { imgBaseUrl };
   },
-  props: ["lists"],
+  props: ["lists", "geohash"],
   methods: {}
 };
 </script>
@@ -23,7 +25,7 @@ export default {
 <style lang='scss' scoped>
 .shop-list-info {
   display: flex;
-  padding: 1rem;
+  padding: .5rem;
   border-bottom: 1px solid #eee;
   background: #fff;
   .image {

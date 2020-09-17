@@ -12,22 +12,18 @@
 
   <div class="wrap_main">
     <!-- 商品分类 -->
-    <swiper class="swiper" :options="swiperOption" ref="mySwiper">
-      <swiper-slide>
-        <div class="typelist-li" v-for="item in typeList">
-          <img :src="imgBaseUrl+item.image_url" alt />
-          <div>{{item.title}}</div>
-        </div>
-      </swiper-slide>
-      <div class="swiper-pagination" slot="pagination"></div>
-    </swiper>
-
+    <div class="wrap-typelist">
+      <div class="typelist-li" v-for="item in typeList">
+        <img :src="imgBaseUrl+item.image_url" alt />
+        <div>{{item.title}}</div>
+      </div>
+    </div>
     <!-- 附近商家 -->
     <div class="shop_list_container">
       <header class="shop_header">
         <span class="shop_header_title">附近商家</span>
       </header>
-      <shopLists :lists="shopList"></shopLists>
+      <shopLists :lists="shopList" :geohash="this.geohash"></shopLists>
     </div>
   </div>
 
@@ -47,9 +43,8 @@ import {
   shopList
 } from "../../service/getData";
 
-import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 export default {
-  components: { headTop, footerGuide, Swiper, SwiperSlide, shopLists },
+  components: { headTop, footerGuide, shopLists },
   data() {
     name: "msite";
     return {
@@ -57,13 +52,6 @@ export default {
       geohash: "",
       typeList: [],
       shopList: [],
-      swiper: [1, 2, 3],
-      swiperOption: {
-        autoplay: true,
-        speed: 1000,
-        direction: "horizontal",
-        pagination: { el: ".swiper-pagination", clickable: true }
-      },
       imgBaseUrl: "https://fuss10.elemecdn.com/"
     };
   },
@@ -82,7 +70,7 @@ export default {
     msiteAddress(this.geohash).then(res => {
       this.headerAddress = res.name;
     });
-    
+
     // 获取分类列表数据
     this.getTypeList();
     //获取附近商铺列表
@@ -95,7 +83,7 @@ export default {
     async getTypeList() {
       let res = await msiteFoodTypes(this.geohash);
       if (res.length) {
-        this.typeList = res;
+        this.typeList = res.splice(0,8);
         console.log("typeList", this.typeList);
       }
     },
@@ -126,22 +114,14 @@ export default {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.swiper {
-  margin-top: 2rem;
-  background-color: #fff;
-  border-bottom: 0.025rem solid #e4e4e4;
-  height: 10.6rem;
-  .swiper-slide {
-    height: 100%;
-    width: 100%;
-  }
-}
+
 .shop_list_container {
   margin-top: 0.5rem;
   margin-bottom: 1rem;
   border-top: 0.025rem solid $bc;
   background-color: #fff;
   .shop_header {
+    padding:0 .5rem;
     .shop_icon {
       fill: #999;
       margin-left: 0.6rem;
@@ -150,26 +130,28 @@ export default {
     }
     .shop_header_title {
       color: #999;
-      @include font(0.55rem, 1.6rem);
+      font-size: 0.8rem;
     }
   }
 }
 
-.swiper {
-  .swiper-slide {
-    display: flex;
-    flex-wrap: wrap;
-    .typelist-li {
-      flex: 1;
-      margin: 0.5rem 0;
-      img {
-        height: 2rem;
-        width: 2rem;
-        margin: 0 1rem;
-      }
-      div {
-        font-size: 0.7rem;
-      }
+.wrap-typelist {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  background: #fff;
+  .typelist-li {
+    flex:25%;
+    margin: 0.5rem 0;
+    text-align:center;
+    img {
+      height: 2rem;
+      width: 2rem;
+      // margin: 0 1rem;
+    }
+    div {
+      font-size: 0.7rem;
+      text-align: center;
     }
   }
 }
