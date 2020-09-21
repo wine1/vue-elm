@@ -9,7 +9,7 @@
     <div class="submit-btn" @click="getSearch">搜索</div>
   </div>
 
-  <div class="wrap-history-list" v-if="!isSearching&&historyList.length">
+  <div class="wrap-history-list" v-if="showHistoryList">
     <div class="title">搜索历史</div>
     <div class="history-list">
       <ul v-for="item in historyList">
@@ -25,7 +25,7 @@
   <div class="resList" v-if="searchRes&&searchRes.length">
     <shopLists :lists="searchRes"></shopLists>
   </div>
-  <div class="nodata" v-else-if="isSearching">很抱歉！暂无搜索结果</div>
+  <div class="nodata" v-else-if="noRes===1">很抱歉！暂无搜索结果</div>
 
   <Toast :showToast="showToast" :text="toastText"></Toast>
 
@@ -46,11 +46,12 @@ export default {
     return {
       headTitle: "搜索",
       historyList: [],
+      showHistoryList: true,
       searchName: "", //搜索关键字
       searchRes: [],
       toastText: "",
       showToast: false,
-      isSearching: false
+      noRes: -1
     };
   },
   created: function() {
@@ -63,9 +64,24 @@ export default {
   //   }
   // },
   computed: {
-    ...mapState(["geohash", "searchHistory"])
+    ...mapState(["geohash", "searchHistory"]),
+    function() {
+      console.log(this.searchName, this.searchName.length);
+      if (this.searchName.length) {
+        this.showHistoryList = false;
+      } else {
+        this.showHistoryList = true;
+        this.searchRes = [];
+      }
+    }
   },
-
+  watch: {
+    function(searchName) {
+      if (!this.searchName) {
+        this.showHistoryList = true;
+      }
+    }
+  },
   methods: {
     ...mapMutations([
       "SAVE_SEARCHHISTORY",
@@ -78,7 +94,12 @@ export default {
         this.isSearching = true;
         this.SAVE_SEARCHHISTORY(this.searchName);
         let res = await searchRestaurant(this.geohash, this.searchName);
-        this.searchRes = res;
+        this.searchRes=[]
+        if (!res.length) {
+          this.noRes = 1;
+        } else {
+          this.searchRes = res;
+        }
       } else {
         this.showToast = true;
         this.toastText = "输入不能为空";
@@ -92,7 +113,7 @@ export default {
       this.historyList = [];
     },
     deleteHistery(item) {
-      this.DELETE_SEARCHHISTORY(item)
+      this.DELETE_SEARCHHISTORY(item);
     }
   }
 };

@@ -27,7 +27,7 @@ vue路由面试题
 
 3. vue-router是vue官方路由管理器
 
-    ```
+     ```
         <router-link :to=‘‘ class=‘active-class‘>   //路由声明式跳转 ，active-class是标签被点击时的样式
         <router-view>                  //渲染路由的容器
         <keep-alive>                    //缓存组件
@@ -35,13 +35,18 @@ vue路由面试题
 
 4. active-class 是哪个组件的属性？
     router-link 用于做选中样式的切换
+    
 5. 怎么定义 vue-router 的动态路由? 怎么获取传过来的值
 6. vue-router 有哪几种导航钩子?
 7. route和router 的区别
+    $route对象表示当前的路由信息，包含了当前 URL 解析得到的信息。包含当前的路径，参数，query对象等。
+    $router对象是全局路由的实例，是router构造方法的实例。
+
 8. vue-router响应路由参数的变化
 9.  vue-router传参
-10. vue-router的两种模式
-11. vue-router实现路由懒加载（ 动态加载路由 ）
+    query params
+
+10. vue-router实现路由懒加载（ 动态加载路由 ）
 
 - 使用AMD风格的require `const Foo = resolve => require(['./Foo.vue'], resolve)`
 - 使用import `component: () => import('@/components/Two')`
@@ -51,17 +56,35 @@ vue常见面试题
 
 1.vue优点
 2.vue父组件向子组件传递数据？
-3.子组件像父组件传递事件
+子组件通过props暴露接口
+
+3.子组件向父组件传递事件
+this.$emit()
+
 4.v-show和v-if指令的共同点和不同点
+v-if 是真正的条件判断 只有条件为真时 才渲染相应的dom
+v-show 的元素始终会被渲染并保留在 DOM 中,对应的是display:none
+
 5.如何让CSS只在当前组件中起作用
+scoped
+
 7.如何获取dom
 vm.$refs
+
 8.说出几种vue当中的指令和它的用法？
+v-if v-on v-bind v-show
+
 9.vue-loader是什么？使用它的用途有哪些？
+  简单的说，他就是基于webpack的一个的loader，解析和转换 .vue 文件，提取出其中的逻辑代码 script、样式代码 style、以及 HTML 模版 template，再分别把它们交给对应的 Loader 去处理，核心的作用，就是提取，划重点。
+
 10.为什么使用key
+
 11.axios及安装
+
 12.axios解决跨域
+
 13.v-modal的使用
+
 14.scss的安装以及使用
 15.请说出vue.cli项目中src目录每个文件夹和文件的用法？
 16.分别简述computed和watch的使用场景
@@ -76,7 +99,10 @@ vm.$refs
 23.Vue中双向数据绑定是如何实现的
 24.单页面应用和多页面应用区别及优缺点
 25.vue中过滤器有什么作用及详解
+
 26.v-if和v-for的优先级
+v-for优先级高于v-if 不要同时使用
+
 27.assets和static的区别
 28.列举常用的指令
 29.vue常用的修饰符
@@ -114,10 +140,17 @@ vm.$refs
 
 vuex常见面试题
 1.vuex是什么？怎么使用？哪种功能场景使用它？
-vuex是vue的全局状态管理器 通过`npm install vuex`安装之后 在main.js中引入store 
+vuex是vue的全局状态管理器 通过`npm install vuex`安装之后 在main.js中引入store
+
 2.vuex有哪几种属性
+State , Getter , Mutation , Action , Module (就是mapAction)
+
 3.不使用Vuex会带来什么问题
+
 4.Vue.js中ajax请求代码应该写在组件的methods中还是vuex的actions中？
+
 5.vuex一个例子方法
+
 6.Vuex中如何异步修改状态
+
 7.Vuex中actions和mutations的区别

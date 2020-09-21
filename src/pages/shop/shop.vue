@@ -8,36 +8,92 @@
     <ul class="tab-content">
       <li v-show="changeShowType=='food'">
         <div class="wrapper">
-          <ul class="menu-left" ref="menuLeft">
-            <li
-              v-for="(item,index) in menus"
-              :key="item.id"
-              :class="{'active': index == menuIndex}"
-              @click="chooseMenu(index)"
-            >{{item.name}}{{item.type}}</li>
-          </ul>
-          <ul class="menu-right" ref="menuRight">
-            <li v-for="item in menus" :key="item.id">
-              <p class="name">{{item.name}}</p>
-              <ul>
-                <li v-for="(foods) in item.foods" :key="foods._id">
-                  <router-link :to="{path:'shop/foodDetail',query:{}}">
-                    <img :src="imgBaseUrl+foods.image_path" alt />
-                  </router-link>
-                  <div class="wrap-right">
-                    <p>{{foods.name}}</p>
-                    <p>{{foods.tips}}</p>
-                    <p>￥{{foods.specfoods[0].price}}</p>
-                  </div>
+          <div class="menu-left" ref="menuLeft" id="menuLeft">
+            <ul>
+              <li
+                v-for="(item,index) in menus"
+                :key="item.id"
+                :class="{'active': index == menuIndex}"
+                @click="chooseMenu(index)"
+              >{{item.name}}{{item.type}}</li>
+            </ul>
+          </div>
+          <div class="menu-right" ref="menuRight">
+            <ul class="menu-right-ul">
+              <li v-for="item in menus" :key="item.id">
+                <p class="name">{{item.name}}</p>
+                <ul>
+                  <li v-for="(foods) in item.foods" :key="foods._id">
+                    <router-link :to="{path:'shop/foodDetail',query:{}}">
+                      <img :src="imgBaseUrl+foods.image_path" alt />
+                    </router-link>
+                    <div class="wrap-right">
+                      <p>{{foods.name}}</p>
+                      <p>{{foods.tips}}</p>
+                      <p>{{foods.rating}}</p>
+                      <p>￥{{foods.specfoods[0].price}}</p>
+                    </div>
 
-                  <div class="add-btn"></div>
-                </li>
-              </ul>
+                    <div class="add-btn">
+                      <div class="wrap-reduce">
+                        <img src="../../images/reduce.png" alt />
+                      </div>
+                      <div class="wrap-num">
+                        <p>{{foodNum}}</p>
+                      </div>
+                      <div
+                        class="wrap-add"
+                        @click="addToCart(foods._id,foods.name,foods.specfoods[0].price)"
+                      >
+                        <img src="../../images/add.png" alt />
+                      </div>
+                      <!-- 加入购物车动画 -->
+                      <!-- <transition
+                        name="drop"
+                        @before-enter="beforeDrop"
+                        @enter="dropping"
+                        @after-enter="afterDrop"
+                      >
+                        <div class="ball" v-show="ball.show" :id="index" :key="index">
+                          <div class="inner" ref="inner"></div>
+                        </div>
+                      </transition>-->
+                      <!-- 加入购物车动画 -->
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="wrap-cart-list" v-if="showCartList&&cartList.length">
+          <div class="mask" @click="toggleCartList"></div>
+          <ul>
+            <li v-for="item in cartList">
+              <p>{{item.name}}</p>
+              <p>{{item.price}}</p>
             </li>
           </ul>
         </div>
 
-        <shopCart :countPrice="countPrice"></shopCart>
+        <div class="wrap-buy-cart" :class="{'wrap-buy-cart-active':cartList.length}">
+          <div class="wrap-icon" @click="toggleCartList">
+            <div class="dot" v-if="countFood">{{countFood}}</div>
+            <img src="../../images/buycart.png" alt />
+          </div>
+
+          <div class="wrap-price">
+            <p>￥{{countPrice}}</p>
+            <p>配送费￥{{countDelivery}}</p>
+          </div>
+
+          <div class="wrap-button">
+            <p>去结算</p>
+            <p>还差￥{{miniOrderAmount}}元起送</p>
+          </div>
+        </div>
+        <!-- <shopCart :countPrice="countPrice"></shopCart> -->
       </li>
       <li v-show="changeShowType=='rating'">
         <p>评论</p>
@@ -60,10 +116,16 @@ export default {
       menuIndex: 0,
       restaurant_id: "",
       imgBaseUrl,
-      countPrice: 111,
+      countPrice: "0.00",
+      countFood: 0,
       isLoading: true,
       shopListTop: [],
-      foodScroll: null //食品列表scroll
+      foodScroll: null, //食品列表scroll
+      countDelivery: "0",
+      miniOrderAmount: "0",
+      cartList: [], //购物车列表
+      foodNum: 0,
+      showCartList: false //展示购物车列表
     };
   },
 
@@ -71,7 +133,10 @@ export default {
 
   created: function() {
     if (this.$route.query) {
+      console.log(this.$route.query);
       this.restaurant_id = this.$route.query.id;
+      this.countDelivery = this.$route.query.deliveryFee;
+      this.miniOrderAmount = this.$route.query.miniOrderAmount;
     }
   },
 
@@ -81,9 +146,8 @@ export default {
     this.initData();
     this.$nextTick(() => {
       this.scroll = new BScroll(this.$refs.menuRight, {});
+      const bscroll = new BScroll(".menu-left", { click: true });
     });
-
-    const bscroll = new BScroll(".menu-left", { click: true });
   },
 
   watch: {
@@ -99,6 +163,9 @@ export default {
   methods: {
     async initData() {
       let res = await foodMenu(this.restaurant_id);
+      res.forEach((item, index) => {
+        item.cartCount = 0; //设置商品加入购物车的数量
+      });
       this.menus = res;
       this.isLoading = false;
       console.log("menus", res);
@@ -107,22 +174,19 @@ export default {
     //点击左侧食品列表标题，相应列表移动到最顶层
     chooseMenu(index) {
       this.menuIndex = index;
-      //menuIndexChange解决运动时listenScroll依然监听的bug
-      this.menuIndexChange = false;
-      this.foodScroll.scrollTo(0, -this.shopListTop[index], 400);
-      //   this.foodScroll.on("scrollEnd", () => {
-      //     this.menuIndexChange = true;
-      //   });
+      this.foodScroll.scrollTo(0, -this.shopListTop[index]+40, 400);
     },
     getFoodListHeight() {
       const listContainer = this.$refs.menuRight;
       const listArr = Array.from(listContainer.children[0].children);
-      listArr.forEach(() => {
+      console.log("listArr", listArr, "listContainer", listContainer);
+      listArr.forEach((item, index) => {
         this.shopListTop[index] = item.offsetTop;
       });
+      console.log(this.shopListTop);
       this.listenScroll(listContainer);
     },
-
+    //当滑动食品列表时，监听其scrollTop值来设置对应的食品列表标题的样式
     listenScroll(element) {
       this.foodScroll = new BScroll(element, {
         probeType: 3,
@@ -131,6 +195,36 @@ export default {
         swipeTime: 2000,
         click: true
       });
+
+      this.foodScroll.on("scroll", pos => {
+        if (!this.$refs.menuLeft) {
+          return;
+        }
+        this.shopListTop.forEach((item, index) => {
+          if (Math.abs(pos.y) >= item-40) {
+            this.menuIndex = index;
+          }
+        });
+      });
+    },
+
+    //加购商品
+    addToCart(id, name, price) {
+      this.cartList.forEach(item => {
+        if (id == item.id) {
+          item.count++;
+        } else {
+          item.count = 1;
+        }
+      });
+      this.cartList = this.cartList.concat({ id, name, price });
+      this.cartList = JSON.parse(JSON.stringify(this.cartList));
+      console.log(this.cartList, id, name, price);
+    },
+
+    //切换购物车的显示隐藏
+    toggleCartList() {
+      this.showCartList = !this.showCartList;
     }
   }
 };
@@ -141,7 +235,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100vw;
   border-bottom: 1px solid #eee;
   background: #fff;
   z-index: 1000;
@@ -171,16 +265,16 @@ export default {
 
 .tab-content {
   height: 100vh;
-  padding: 2rem 0;
+  padding: 2rem 0 3rem;
 }
 .wrapper {
   display: flex;
-  //   height: 100%;
+  height: calc(100vh - 5rem);
 }
 
 .menu-left {
   height: 100%;
-  flex: 3;
+  width: 4rem;
   li {
     padding: 0.8rem 0.5rem;
     font-size: 0.8rem;
@@ -203,21 +297,28 @@ export default {
 }
 .menu-right {
   height: 100%;
-  flex: 7;
+  flex: 1;
+  .menu-right-ul {
+    padding-bottom: 100vh;
+  }
   li {
     border-bottom: 1px solid #eee;
     background: #fff;
     .name {
-      padding: 0.5rem;
+      height: 40px;
+      line-height: 40px;
       background: #eee;
-      font-size: 0.8rem;
     }
     ul {
       li {
         position: relative;
         display: flex;
         padding: 0.5rem;
+        box-sizing: border-box;
         img {
+          // position: absolute;
+          // left: .5rem;
+          // top:.5rem;
           height: 3rem;
           width: 3rem;
           margin-right: 0.5rem;
@@ -229,13 +330,110 @@ export default {
           position: absolute;
           right: 0.5rem;
           bottom: 0.5rem;
-          height: 1rem;
-          width: 1rem;
-          background: #3190e8;
-          border-radius: 50%;
+          display: flex;
+
+          .wrap-reduce,
+          .wrap-add {
+            height: 1rem;
+            width: 1rem;
+            border-radius: 50%;
+            border: 1px solid #3190e8;
+            font-size: 0;
+            img {
+              height: 100%;
+              width: 100%;
+              border-radius: 50%;
+            }
+          }
+          .wrap-add {
+            background: #3190e8;
+          }
+          .wrap-num {
+            line-height: 1rem;
+            font-size: 0.8rem;
+            padding: 0 0.3rem;
+          }
         }
       }
     }
+  }
+}
+
+.wrap-cart-list {
+  position: fixed;
+  bottom: 3rem;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: #f2f3fa;
+  .mask {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1001;
+  }
+  ul {
+    position: relative;
+    background: #f2f3fa;
+    z-index: 1002;
+  }
+}
+.wrap-buy-cart {
+  display: flex;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 3rem;
+  z-index: 1010;
+  background-color: #3d3d3f;
+  color: #fff;
+  .wrap-icon {
+    position: absolute;
+    left: 0.5rem;
+    bottom: 0.5rem;
+    height: 3rem;
+    width: 3rem;
+    padding: 0.3rem;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background-color: #3d3d3f;
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+  }
+  .dot {
+    position: absolute;
+    right: -0.2rem;
+    top: -0.2rem;
+    height: 1rem;
+    width: 1rem;
+    border-radius: 50%;
+    background: red;
+    text-align: center;
+    line-height: 1rem;
+    font-size: 0.7rem;
+    color: #fff;
+  }
+
+  &.wrap-buy-cart-active {
+    background: #3190e8;
+    .wrap-icon {
+      background: #3190e8;
+    }
+  }
+
+  .wrap-price {
+    flex: 1;
+    margin-left: 5rem;
+  }
+  .wrap-button {
+    flex: 1;
   }
 }
 </style>
