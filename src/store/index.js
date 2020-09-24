@@ -7,7 +7,8 @@ Vue.use(Vuex);
 const state = {
   userInfo: {},
   geohash: "31.22299,121.36025", //地址geohash值
-  searchHistory:[]
+  searchHistory:[],
+  cartList:[],//购物车列表
 };
 const store = new Vuex.Store({
   state,

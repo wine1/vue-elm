@@ -33,33 +33,7 @@
                       <p>{{foods.rating}}</p>
                       <p>￥{{foods.specfoods[0].price}}</p>
                     </div>
-
-                    <div class="add-btn">
-                      <div class="wrap-reduce">
-                        <img src="../../images/reduce.png" alt />
-                      </div>
-                      <div class="wrap-num">
-                        <p>{{foodNum}}</p>
-                      </div>
-                      <div
-                        class="wrap-add"
-                        @click="addToCart(foods._id,foods.name,foods.specfoods[0].price)"
-                      >
-                        <img src="../../images/add.png" alt />
-                      </div>
-                      <!-- 加入购物车动画 -->
-                      <!-- <transition
-                        name="drop"
-                        @before-enter="beforeDrop"
-                        @enter="dropping"
-                        @after-enter="afterDrop"
-                      >
-                        <div class="ball" v-show="ball.show" :id="index" :key="index">
-                          <div class="inner" ref="inner"></div>
-                        </div>
-                      </transition>-->
-                      <!-- 加入购物车动画 -->
-                    </div>
+                    <shopCart class="shop-cart" :shopId='shopId' :foods='foods'></shopCart>
                   </li>
                 </ul>
               </li>
@@ -93,7 +67,6 @@
             <p>还差￥{{miniOrderAmount}}元起送</p>
           </div>
         </div>
-        <!-- <shopCart :countPrice="countPrice"></shopCart> -->
       </li>
       <li v-show="changeShowType=='rating'">
         <p>评论</p>
@@ -174,7 +147,7 @@ export default {
     //点击左侧食品列表标题，相应列表移动到最顶层
     chooseMenu(index) {
       this.menuIndex = index;
-      this.foodScroll.scrollTo(0, -this.shopListTop[index]+40, 400);
+      this.foodScroll.scrollTo(0, -this.shopListTop[index] + 40, 400);
     },
     getFoodListHeight() {
       const listContainer = this.$refs.menuRight;
@@ -201,7 +174,7 @@ export default {
           return;
         }
         this.shopListTop.forEach((item, index) => {
-          if (Math.abs(pos.y) >= item-40) {
+          if (Math.abs(pos.y) >= item - 40) {
             this.menuIndex = index;
           }
         });
@@ -326,33 +299,10 @@ export default {
         .wrap-right {
           flex: 1;
         }
-        .add-btn {
+        .shop-cart {
           position: absolute;
           right: 0.5rem;
           bottom: 0.5rem;
-          display: flex;
-
-          .wrap-reduce,
-          .wrap-add {
-            height: 1rem;
-            width: 1rem;
-            border-radius: 50%;
-            border: 1px solid #3190e8;
-            font-size: 0;
-            img {
-              height: 100%;
-              width: 100%;
-              border-radius: 50%;
-            }
-          }
-          .wrap-add {
-            background: #3190e8;
-          }
-          .wrap-num {
-            line-height: 1rem;
-            font-size: 0.8rem;
-            padding: 0 0.3rem;
-          }
         }
       }
     }

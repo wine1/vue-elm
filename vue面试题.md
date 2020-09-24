@@ -152,5 +152,11 @@ State , Getter , Mutation , Action , Module (就是mapAction)
 5.vuex一个例子方法
 
 6.Vuex中如何异步修改状态
+action
 
 7.Vuex中actions和mutations的区别
+action处理异步事件 通过muaction改变state的值 会默认将自身封装为一个Promise
+
+8.数组中出现__ob__: Observer无法取值
+需要用JSON.parse(JSON.stringify(数组))
+重新生成一个可枚举数组

@@ -9,23 +9,23 @@
     <div class="submit-btn" @click="getSearch">搜索</div>
   </div>
 
-  <div class="wrap-history-list" v-if="showHistoryList">
+  <div class="wrap-history-list" v-if="showHistoryList&&historyList.length">
     <div class="title">搜索历史</div>
     <div class="history-list">
-      <ul v-for="item in historyList">
-        <li>
+      <ul v-for="(item,index) in historyList" :key="index">
+        <li @click="chooseHistory(item)">
           <p>{{item}}</p>
-          <img @click="deleteHistery(item)" src="../../images/close.png" alt />
+          <img @click.stop="deleteHistery(index)" src="../../images/close.png" alt />
         </li>
       </ul>
-      <p class="clear-btn" @click="clearHistory">清空搜索历史</p>
+      <p class="clear-btn" v-if="historyList.length" @click="clearHistory">清空搜索历史</p>
     </div>
   </div>
 
   <div class="resList" v-if="searchRes&&searchRes.length">
     <shopLists :lists="searchRes"></shopLists>
   </div>
-  <div class="nodata" v-else-if="noRes===1">很抱歉！暂无搜索结果</div>
+  <div class="nodata" v-else-if="noRes===1&&!showHistoryList">很抱歉！暂无搜索结果</div>
 
   <Toast :showToast="showToast" :text="toastText"></Toast>
 
@@ -40,6 +40,7 @@ import { searchRestaurant } from "../../service/getData";
 import shopLists from "../../components/common/shopLists";
 import Toast from "../../components/common/toast";
 import { mapState, mapMutations } from "vuex";
+import { setStore, getStore, removeStore } from "../../config/mUtils";
 export default {
   components: { headTop, footerGuide, shopLists, Toast },
   data() {
@@ -58,17 +59,12 @@ export default {
     this.GET_SEARCHHISTORY();
     this.historyList = this.searchHistory;
   },
-  // updated: function() {
-  //   if (!this.searchName.length) {
-  //     this.historyList = [];
-  //   }
-  // },
   computed: {
     ...mapState(["geohash", "searchHistory"]),
     function() {
-      console.log(this.searchName, this.searchName.length);
       if (this.searchName.length) {
         this.showHistoryList = false;
+        this.historyList = this.searchHistory;
       } else {
         this.showHistoryList = true;
         this.searchRes = [];
@@ -86,15 +82,13 @@ export default {
     ...mapMutations([
       "SAVE_SEARCHHISTORY",
       "GET_SEARCHHISTORY",
-      "CLEAR_SEARCHHISTORY",
-      "DELETE_SEARCHHISTORY"
+      "CLEAR_SEARCHHISTORY"
     ]),
     async getSearch() {
       if (this.searchName.length) {
-        this.isSearching = true;
         this.SAVE_SEARCHHISTORY(this.searchName);
         let res = await searchRestaurant(this.geohash, this.searchName);
-        this.searchRes=[]
+        this.searchRes = [];
         if (!res.length) {
           this.noRes = 1;
         } else {
@@ -112,8 +106,19 @@ export default {
       this.CLEAR_SEARCHHISTORY();
       this.historyList = [];
     },
-    deleteHistery(item) {
-      this.DELETE_SEARCHHISTORY(item);
+    deleteHistery(index) {
+      this.historyList.splice(index, 1);
+      setStore("searchHistory", this.historyList);
+    },
+    async chooseHistory(item) {
+      this.searchName=item
+      let res = await searchRestaurant(this.geohash, item);
+      this.searchRes = [];
+      if (!res.length) {
+        this.noRes = 1;
+      } else {
+        this.searchRes = res;
+      }
     }
   }
 };
@@ -163,6 +168,8 @@ export default {
 .wrap-history-list {
   padding: 0.5rem 0;
   .title {
+    padding: .5rem;
+    font-size: .8rem;
     color: #666;
   }
   .history-list {
@@ -172,6 +179,7 @@ export default {
         display: flex;
         padding: 0.5rem;
         border-bottom: 1px solid #eee;
+        font-size: .7rem;
         p {
           flex: 1;
         }
