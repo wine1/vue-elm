@@ -26,6 +26,8 @@ const foodDetail = r =>
   );
 const order = r =>
   require.ensure([], () => r(require("../pages/order/order")), "order");
+const orderDetail = r => require.ensure([],()=>r(require("../pages/order/children/orderDetail")),"orderDetail")
+
 const info = r =>
   require.ensure(
     [],
@@ -73,7 +75,8 @@ export default [
       },
       {
         path: "/order",
-        component: order
+        component: order,
+        children:[{path:"orderDetail",component:orderDetail}]
       },
       {
         path: "/profile",

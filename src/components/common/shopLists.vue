@@ -3,7 +3,7 @@
     <div v-for="item in lists">
       <router-link
         class="shop-list-info"
-        :to="{path:'shop',query:{geohash,id:item.id,deliveryFee:item.float_delivery_fee,miniOrderAmount:item.float_minimum_order_amount}} "
+        :to="{path:'shop',query:{geohash,id:item.id,deliveryFee:item.float_delivery_fee,miniOrderAmount:item.float_minimum_order_amount,name:item.name,img:item.image_path,rating:item.rating}} "
         :key="item.id"
       >
         <img class="image" :src="imgBaseUrl+item.image_path" alt />

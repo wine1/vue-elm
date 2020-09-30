@@ -54,40 +54,54 @@ vue路由面试题
 
 vue常见面试题
 
-1.vue优点
-2.vue父组件向子组件传递数据？
+1. vue优点
+2. vue父组件向子组件传递数据？
 子组件通过props暴露接口
 
-3.子组件向父组件传递事件
+3. 子组件向父组件传递事件
 this.$emit()
 
-4.v-show和v-if指令的共同点和不同点
+4. v-show和v-if指令的共同点和不同点
 v-if 是真正的条件判断 只有条件为真时 才渲染相应的dom
 v-show 的元素始终会被渲染并保留在 DOM 中,对应的是display:none
 
-5.如何让CSS只在当前组件中起作用
+5. 如何让CSS只在当前组件中起作用
 scoped
 
-7.如何获取dom
+6. 如何获取dom
 vm.$refs
 
-8.说出几种vue当中的指令和它的用法？
+7. 说出几种vue当中的指令和它的用法？
 v-if v-on v-bind v-show
 
-9.vue-loader是什么？使用它的用途有哪些？
+8. vue-loader是什么？使用它的用途有哪些？
   简单的说，他就是基于webpack的一个的loader，解析和转换 .vue 文件，提取出其中的逻辑代码 script、样式代码 style、以及 HTML 模版 template，再分别把它们交给对应的 Loader 去处理，核心的作用，就是提取，划重点。
 
-10.为什么使用key
+9. 为什么使用key
+列表的唯一标识 提升渲染效率
 
-11.axios及安装
+10. axios及安装
 
-12.axios解决跨域
+11. axios解决跨域
 
-13.v-modal的使用
+12. v-modal的使用
 
-14.scss的安装以及使用
-15.请说出vue.cli项目中src目录每个文件夹和文件的用法？
-16.分别简述computed和watch的使用场景
+13. scss的安装以及使用
+node-sass
+
+14. 分别简述computed和watch的使用场景
+    watch  属性监听 监听属性的变化
+    computed:计算属性通过属性计算而得来的属性
+    watch中的函数不需要调用 变量发生变化时触发
+    2、使用场景
+    computed 　　　　
+　　　　当一个属性受多个属性影响的时候就需要用到computed
+　　　　最典型的例子： 购物车商品结算的时候
+    watch
+　　　　当一条数据影响多条数据的时候就需要用watch
+　　　　搜索数据
+ 
+
 17.v-on可以监听多个方法吗
 18.$nextTick的使用
 定义：在下次 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。

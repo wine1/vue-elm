@@ -1,64 +1,87 @@
 <template>
-<html id="msite">
-  <headTop signinUp="true">
-    <router-link to="/search" class="link_search" slot="search">
-      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" version="1.1">
-        <circle cx="8" cy="8" r="7" stroke="rgb(255,255,255)" stroke-width="1" fill="none" />
-        <line x1="14" y1="14" x2="20" y2="20" style="stroke:rgb(255,255,255);stroke-width:2" />
-      </svg>
-    </router-link>
-    <router-link to="/home" class="address" slot="changecity">{{headerAddress}}</router-link>
-  </headTop>
+  <html id="msite">
+    <loading v-if="isLoading"></loading>
+    <headTop signinUp="true">
+      <router-link to="/search" class="link_search" slot="search">
+        <svg
+          width="100%"
+          height="100%"
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+        >
+          <circle
+            cx="8"
+            cy="8"
+            r="7"
+            stroke="rgb(255,255,255)"
+            stroke-width="1"
+            fill="none"
+          />
+          <line
+            x1="14"
+            y1="14"
+            x2="20"
+            y2="20"
+            style="stroke: rgb(255, 255, 255); stroke-width: 2"
+          />
+        </svg>
+      </router-link>
+      <router-link to="/home" class="address" slot="changecity">{{
+        headerAddress
+      }}</router-link>
+    </headTop>
 
-  <div class="wrap_main">
-    <!-- 商品分类 -->
-    <div class="wrap-typelist">
-      <div class="typelist-li" v-for="item in typeList">
-        <img :src="imgBaseUrl+item.image_url" alt />
-        <div>{{item.title}}</div>
+    <div class="wrap_main">
+      <!-- 商品分类 -->
+      <div class="wrap-typelist">
+        <div class="typelist-li" v-for="item in typeList">
+          <img :src="imgBaseUrl + item.image_url" alt />
+          <div>{{ item.title }}</div>
+        </div>
+      </div>
+      <!-- 附近商家 -->
+      <div class="shop_list_container">
+        <header class="shop_header">
+          <span class="shop_header_title">附近商家</span>
+        </header>
+        <shopLists :lists="shopList" :geohash="this.geohash"></shopLists>
       </div>
     </div>
-    <!-- 附近商家 -->
-    <div class="shop_list_container">
-      <header class="shop_header">
-        <span class="shop_header_title">附近商家</span>
-      </header>
-      <shopLists :lists="shopList" :geohash="this.geohash"></shopLists>
-    </div>
-  </div>
 
-  <footerGuide></footerGuide>
-</html>
+    <footerGuide></footerGuide>
+  </html>
 </template>
 
 <script>
 import headTop from "../../components/header/head";
 import footerGuide from "../../components/footer/footGuide";
 import shopLists from "../../components/common/shopLists";
+import loading from "../../components/common/loading";
 import { mapState, mapMutations } from "vuex";
 import {
   cityGuess,
   msiteAddress,
   msiteFoodTypes,
-  shopList
+  shopList,
 } from "../../service/getData";
 
 export default {
-  components: { headTop, footerGuide, shopLists },
+  components: { headTop, footerGuide, shopLists, loading },
   data() {
     name: "msite";
     return {
+      isLoading: true,
       headerAddress: "",
       geohash: "",
       typeList: [],
       shopList: [],
-      imgBaseUrl: "https://fuss10.elemecdn.com/"
+      imgBaseUrl: "https://fuss10.elemecdn.com/",
     };
   },
 
-  created: function() {
+  created: function () {
     if (!this.$route.query) {
-      cityGuess().then(res => {
+      cityGuess().then((res) => {
         this.headerAddress = res.name;
         this.geohash = address.latitude + "," + address.longitude;
       });
@@ -67,7 +90,7 @@ export default {
     }
 
     this.SAVE_ADDRESS(this.geohash);
-    msiteAddress(this.geohash).then(res => {
+    msiteAddress(this.geohash).then((res) => {
       this.headerAddress = res.name;
     });
 
@@ -83,16 +106,17 @@ export default {
     async getTypeList() {
       let res = await msiteFoodTypes(this.geohash);
       if (res.length) {
-        this.typeList = res.splice(0,8);
+        this.typeList = res.splice(0, 8);
         console.log("typeList", this.typeList);
       }
     },
     async getShopList() {
       let res = await shopList(this.geohash);
       this.shopList = res;
+      this.isLoading=false
       console.log("shopList", this.shopList);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -121,7 +145,7 @@ export default {
   border-top: 0.025rem solid $bc;
   background-color: #fff;
   .shop_header {
-    padding:0 .5rem;
+    padding: 0 0.5rem;
     .shop_icon {
       fill: #999;
       margin-left: 0.6rem;
@@ -141,9 +165,9 @@ export default {
   margin-top: 2rem;
   background: #fff;
   .typelist-li {
-    flex:25%;
+    flex: 25%;
     margin: 0.5rem 0;
-    text-align:center;
+    text-align: center;
     img {
       height: 2rem;
       width: 2rem;

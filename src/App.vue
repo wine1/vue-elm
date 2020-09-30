@@ -19,6 +19,7 @@ export default {
 
 <style>
 @import "./style/common.scss";
+/* @import "./style/mixin.scss"; */
 #app {
   position: absolute;
   height: 100%;

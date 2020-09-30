@@ -1,7 +1,10 @@
 <template>
   <div class="shop-cart">
     <div class="add-btn">
-      <div class="wrap-reduce" @click="removeOutCart(foods._id,foods.name,foods.specfoods[0].price)">
+      <div
+        class="wrap-reduce"
+        @click="removeOutCart(foods._id,foods.name,foods.specfoods[0].price)"
+      >
         <img src="../../images/reduce.png" alt />
       </div>
       <div class="wrap-num">
@@ -15,23 +18,25 @@
 </template>
 
 <script>
-import {mapState,mapMutations} from 'vuex'
+import { mapState, mapMutations } from "vuex";
 export default {
   data() {
-    return {};
+    return {
+      foodNum: 0
+    };
   },
-  props: ["foods","shopId"],
+  props: ["foods", "shopId"],
 
   //   computed: {},
 
   //   mounted: {},
 
-    methods: {
-      ...mapMutations(ADD_CART,REDUCE_CART),
-      addToCart(id,name,price) {
-
-      }
+  methods: {
+    ...mapMutations(["ADD_CART", "REDUCE_CART"]),
+    addToCart(id, name, price) {
+      this.ADD_CART({id, name, price});
     }
+  }
 };
 </script>
 <style lang='scss' scoped>

@@ -1,39 +1,63 @@
 <template>
   <div id="shop">
     <loading v-if="isLoading"></loading>
+    <div class="wrap-header">
+      <div class="nav-back" @click="navBack"><img src="../../images/back.png" alt="" /></div>
+      <img class="shop-img" :src="`${imgBaseUrl}${this.shopImg}`" alt="">
+     <div class="wrap-text">
+        <div class="shop-name">{{this.shopName}}</div>
+      <div class="shop-rating">评分：{{this.shopRating}}</div>
+     </div>
+    </div>
     <ul class="tab-bar">
-      <li :class="{'active-bar':changeShowType=='food'}" @click="changeShowType='food'">商品</li>
-      <li :class="{'active-bar':changeShowType=='rating'}" @click="changeShowType='rating'">评价</li>
+      <li
+        :class="{ 'active-bar': changeShowType == 'food' }"
+        @click="changeShowType = 'food'"
+      >
+        商品
+      </li>
+      <li
+        :class="{ 'active-bar': changeShowType == 'rating' }"
+        @click="changeShowType = 'rating'"
+      >
+        评价
+      </li>
     </ul>
     <ul class="tab-content">
-      <li v-show="changeShowType=='food'">
+      <li v-show="changeShowType == 'food'">
         <div class="wrapper">
           <div class="menu-left" ref="menuLeft" id="menuLeft">
             <ul>
               <li
-                v-for="(item,index) in menus"
+                v-for="(item, index) in menus"
                 :key="item.id"
-                :class="{'active': index == menuIndex}"
+                :class="{ active: index == menuIndex }"
                 @click="chooseMenu(index)"
-              >{{item.name}}{{item.type}}</li>
+              >
+                {{ item.name }}{{ item.type }}
+              </li>
             </ul>
           </div>
           <div class="menu-right" ref="menuRight">
             <ul class="menu-right-ul">
               <li v-for="item in menus" :key="item.id">
-                <p class="name">{{item.name}}</p>
+                <p class="name">{{ item.name }}</p>
                 <ul>
-                  <li v-for="(foods) in item.foods" :key="foods._id">
-                    <router-link :to="{path:'shop/foodDetail',query:{}}">
-                      <img :src="imgBaseUrl+foods.image_path" alt />
+                  <li v-for="foods in item.foods" :key="foods._id">
+                    <router-link :to="{ path: 'shop/foodDetail', query: {} }">
+                      <img :src="imgBaseUrl + foods.image_path" alt />
                     </router-link>
                     <div class="wrap-right">
-                      <p>{{foods.name}}</p>
-                      <p>{{foods.tips}}</p>
-                      <p>{{foods.rating}}</p>
-                      <p>￥{{foods.specfoods[0].price}}</p>
+                      <p>{{ foods.name }}</p>
+                      <p>{{ foods.tips }}</p>
+                      <p>{{ foods.rating }}</p>
+                      <p>￥{{ foods.specfoods[0].price }}</p>
                     </div>
-                    <shopCart class="shop-cart" :shopId='shopId' :foods='foods'></shopCart>
+                    <shopCart
+                      class="shop-cart"
+                      :shopId="shopId"
+                      :foods="foods"
+                    ></shopCart>
                   </li>
                 </ul>
               </li>
@@ -41,34 +65,37 @@
           </div>
         </div>
 
-        <div class="wrap-cart-list" v-if="showCartList&&cartList.length">
+        <div class="wrap-cart-list" v-if="showCartList && cartList.length">
           <div class="mask" @click="toggleCartList"></div>
           <ul>
             <li v-for="item in cartList">
-              <p>{{item.name}}</p>
-              <p>{{item.price}}</p>
+              <p>{{ item.name }}</p>
+              <p>{{ item.price }}</p>
             </li>
           </ul>
         </div>
 
-        <div class="wrap-buy-cart" :class="{'wrap-buy-cart-active':cartList.length}">
+        <div
+          class="wrap-buy-cart"
+          :class="{ 'wrap-buy-cart-active': cartList.length }"
+        >
           <div class="wrap-icon" @click="toggleCartList">
-            <div class="dot" v-if="countFood">{{countFood}}</div>
+            <div class="dot" v-if="countFood">{{ countFood }}</div>
             <img src="../../images/buycart.png" alt />
           </div>
 
           <div class="wrap-price">
-            <p>￥{{countPrice}}</p>
-            <p>配送费￥{{countDelivery}}</p>
+            <p>￥{{ countPrice }}</p>
+            <p>配送费￥{{ countDelivery }}</p>
           </div>
 
           <div class="wrap-button">
             <p>去结算</p>
-            <p>还差￥{{miniOrderAmount}}元起送</p>
+            <p>还差￥{{ miniOrderAmount }}元起送</p>
           </div>
         </div>
       </li>
-      <li v-show="changeShowType=='rating'">
+      <li v-show="changeShowType == 'rating'">
         <p>评论</p>
       </li>
     </ul>
@@ -87,7 +114,10 @@ export default {
       changeShowType: "food",
       menus: [],
       menuIndex: 0,
-      restaurant_id: "",
+      shopId: "",
+      shopName: "",
+      shopImg: "",
+      shopRating: "",
       imgBaseUrl,
       countPrice: "0.00",
       countFood: 0,
@@ -97,17 +127,19 @@ export default {
       countDelivery: "0",
       miniOrderAmount: "0",
       cartList: [], //购物车列表
-      foodNum: 0,
-      showCartList: false //展示购物车列表
+      showCartList: false, //展示购物车列表
     };
   },
 
   components: { shopCart, loading },
 
-  created: function() {
+  created: function () {
     if (this.$route.query) {
       console.log(this.$route.query);
-      this.restaurant_id = this.$route.query.id;
+      this.shopId = this.$route.query.id;
+      this.shopName = this.$route.query.name;
+      this.shopImg = this.$route.query.img;
+      this.shopRating = this.$route.query.rating;
       this.countDelivery = this.$route.query.deliveryFee;
       this.miniOrderAmount = this.$route.query.miniOrderAmount;
     }
@@ -124,24 +156,23 @@ export default {
   },
 
   watch: {
-    isLoading: function(value) {
+    isLoading: function (value) {
       if (!value) {
         this.$nextTick(() => {
           this.getFoodListHeight();
         });
       }
-    }
+    },
   },
 
   methods: {
     async initData() {
-      let res = await foodMenu(this.restaurant_id);
+      let res = await foodMenu(this.shopId);
       res.forEach((item, index) => {
         item.cartCount = 0; //设置商品加入购物车的数量
       });
       this.menus = res;
       this.isLoading = false;
-      console.log("menus", res);
     },
 
     //点击左侧食品列表标题，相应列表移动到最顶层
@@ -156,7 +187,6 @@ export default {
       listArr.forEach((item, index) => {
         this.shopListTop[index] = item.offsetTop;
       });
-      console.log(this.shopListTop);
       this.listenScroll(listContainer);
     },
     //当滑动食品列表时，监听其scrollTop值来设置对应的食品列表标题的样式
@@ -166,10 +196,10 @@ export default {
         deceleration: 0.001,
         bounce: false,
         swipeTime: 2000,
-        click: true
+        click: true,
       });
 
-      this.foodScroll.on("scroll", pos => {
+      this.foodScroll.on("scroll", (pos) => {
         if (!this.$refs.menuLeft) {
           return;
         }
@@ -183,7 +213,7 @@ export default {
 
     //加购商品
     addToCart(id, name, price) {
-      this.cartList.forEach(item => {
+      this.cartList.forEach((item) => {
         if (id == item.id) {
           item.count++;
         } else {
@@ -198,15 +228,59 @@ export default {
     //切换购物车的显示隐藏
     toggleCartList() {
       this.showCartList = !this.showCartList;
+    },
+
+    navBack(){
+      console.log(this.$router)
+      this.$router.go(-1)
     }
-  }
+  },
 };
 </script>
 <style lang='scss' scoped>
+.wrap-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6rem;
+  display: flex;
+  background:#3190e8;
+  z-index: 999;
+  .nav-back {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 2rem;
+    width: 2rem;
+    padding: .5rem;
+    img {
+      width:100%;
+      height:100%;
+    }
+  }
+  .shop-img{
+    height: 4rem;
+    width: 4rem;
+    margin: 1rem;
+    margin-left: 3rem;
+  }
+
+  .wrap-text {
+    flex: 1;
+    padding-top: 1rem;
+    .shop-name {
+      color: #fff;
+    }
+    .shop-rating {
+      color: #fff;
+    }
+  }
+}
 .tab-bar {
   display: flex;
   position: fixed;
-  top: 0;
+  top: 6rem;
   left: 0;
   width: 100vw;
   border-bottom: 1px solid #eee;
@@ -238,7 +312,7 @@ export default {
 
 .tab-content {
   height: 100vh;
-  padding: 2rem 0 3rem;
+  padding: 8rem 0 3rem;
 }
 .wrapper {
   display: flex;
@@ -386,4 +460,6 @@ export default {
     flex: 1;
   }
 }
+
+
 </style>

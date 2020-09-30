@@ -112,7 +112,8 @@ export default {
   .user_avatar {
     height: 1rem;
     width: 1rem;
-    vertical-align: middle;
+    font-size: 0;
+    margin-top: .5rem;
     img {
       width: 100%;
       height: 100%;
