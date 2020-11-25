@@ -2,6 +2,14 @@
 
 1. 什么是 vue 生命周期,vue生命周期的作用是什么
     Vue 实例从开始创建、初始化数据、编译模板、挂载Dom和渲染、更新和渲染、卸载等一系列过程，这是 Vue 的生命周期
+    beforeCreate
+    created
+    beforeMount
+    mounted
+    beforeUpdate
+    undated
+    beforeDestory
+    destroy
 
 2. 第一次页面加载会触发哪几个钩子
     beforeCreate() created() beforeMount() mounted() 
@@ -22,10 +30,10 @@
 vue路由面试题
 
 1. mvvm 框架是什么？
+model -> viewmodel  view 的双向绑定框架
 
 2. vue-router 是什么?它有哪些组件
-
-3. vue-router是vue官方路由管理器
+ vue-router是vue官方路由管理器
 
      ```
         <router-link :to=‘‘ class=‘active-class‘>   //路由声明式跳转 ，active-class是标签被点击时的样式
@@ -36,13 +44,17 @@ vue路由面试题
 4. active-class 是哪个组件的属性？
     router-link 用于做选中样式的切换
     
-5. 怎么定义 vue-router 的动态路由? 怎么获取传过来的值
+5. 怎么定义 vue-router 的动态路由? 怎么获取传过来的值、
+params 和 query 
+
 6. vue-router 有哪几种导航钩子?
+
 7. route和router 的区别
     $route对象表示当前的路由信息，包含了当前 URL 解析得到的信息。包含当前的路径，参数，query对象等。
     $router对象是全局路由的实例，是router构造方法的实例。
 
 8. vue-router响应路由参数的变化
+
 9.  vue-router传参
     query params
 
@@ -103,11 +115,25 @@ node-sass
  
 
 17.v-on可以监听多个方法吗
+ v-on="{
+     input:onInput,
+     focus:onFocus,
+     blur:onBlur,
+     }"
+
 18.$nextTick的使用
 定义：在下次 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。
 
 19.vue组件中data为什么必须是一个函数
-20.vue事件对象的使用
+组件是可复用的vue实例，一个组件被创建好之后，就可能被用在各个地方，而组件不管被复用了多少次，组件中的data数据都应该是相互隔离，互不影响的，基于这一理念，组件每复用一次，data数据就应该被复制一次，之后，当某一处复用的地方组件内data数据被改变时，其他复用地方组件的data数据不受影响
+
+20.vue事件对象的使用 (https://img2018.cnblogs.com/blog/1319943/201810/1319943-20181026105419449-936188685.png)
+click.prevent 阻止默认行为
+click.stop 阻止事件冒泡
+click.capture 事件只在捕获阶段执行
+click.once 只执行一次
+click.self 只有触发自己的时候才会执行
+
 21 组件间的通信
 22.渐进式框架的理解
 23.Vue中双向数据绑定是如何实现的
@@ -126,7 +152,7 @@ v-for优先级高于v-if 不要同时使用
 33.vue的两个核心点
 34.vue和jQuery的区别
 35 引进组件的步骤
-36.Vue-cli打包命令是什么？打包后悔导致路径问题，应该在哪里修改
+36.Vue-cli打包命令是什么？打包后导致路径问题，应该在哪里修改
 37.三大框架的对比
 38.跨组件双向数据绑定
 39.delete和Vue.delete删除数组的区别
