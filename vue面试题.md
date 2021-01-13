@@ -15,58 +15,59 @@
     beforeCreate() created() beforeMount() mounted() 
 
 3. 简述每个周期具体适合哪些场景
-    beforeCreate()
-    created()
-    beforeMount()
-    mounted()
-    beforeUpdate()
-    updated()
-    beforeDestory()
-    destroy()
+    beforeCreate() 实例创建前
+    created() 创建实例
+    beforeMount() 实例挂在前
+    mounted() 挂载实例
+    beforeUpdate() 更新前
+    updated()   更新
+    beforeDestory() 销毁前
+    destroy() 销毁
 
 4. created和mounted的区别
     create阶段new了实例 但是并没有挂载 不能进行dom操作
 
-vue路由面试题
+# vue路由面试题
 
 1. mvvm 框架是什么？
 model -> viewmodel  view 的双向绑定框架
 
 2. vue-router 是什么?它有哪些组件
  vue-router是vue官方路由管理器
-
      ```
         <router-link :to=‘‘ class=‘active-class‘>   //路由声明式跳转 ，active-class是标签被点击时的样式
         <router-view>                  //渲染路由的容器
         <keep-alive>                    //缓存组件
     ```
-
-4. active-class 是哪个组件的属性？
+3. active-class 是哪个组件的属性？
     router-link 用于做选中样式的切换
     
-5. 怎么定义 vue-router 的动态路由? 怎么获取传过来的值、
-params 和 query 
+4. 怎么定义 vue-router 的动态路由? 怎么获取传过来的值、
+    params 和 query 
 
-6. vue-router 有哪几种导航钩子?
+5. vue-router 有哪几种导航钩子?
+    全局守卫 router.beforeEach
+    全局解析守卫 router.beforeResolve
+    全局后置钩子 router.afterEach
+    路由独享的守卫 beforeEnter
+    组件内的守卫 beforeRouteEnter、beforeRouteUpdate (2.2 新增)、beforeRouteLeave
 
-7. route和router 的区别
+6. route和router 的区别
     $route对象表示当前的路由信息，包含了当前 URL 解析得到的信息。包含当前的路径，参数，query对象等。
     $router对象是全局路由的实例，是router构造方法的实例。
 
-8. vue-router响应路由参数的变化
+7. vue-router响应路由参数的变化
 
-9.  vue-router传参
-    query params
-
-10. vue-router实现路由懒加载（ 动态加载路由 ）
-
+8. vue-router实现路由懒加载（ 动态加载路由 ）
 - 使用AMD风格的require `const Foo = resolve => require(['./Foo.vue'], resolve)`
 - 使用import `component: () => import('@/components/Two')`
 - 使用webpack特有的require.ensure() `components: r => require.ensure([], () => r(require('@/components/Three')), 'group-home')`
 
-vue常见面试题
+# vue常见面试题
 
 1. vue优点
+轻量级 易上手 渐进式框架 数据双向绑定 虚拟dom 速度快
+
 2. vue父组件向子组件传递数据？
 子组件通过props暴露接口
 
@@ -89,14 +90,17 @@ v-if v-on v-bind v-show
 8. vue-loader是什么？使用它的用途有哪些？
   简单的说，他就是基于webpack的一个的loader，解析和转换 .vue 文件，提取出其中的逻辑代码 script、样式代码 style、以及 HTML 模版 template，再分别把它们交给对应的 Loader 去处理，核心的作用，就是提取，划重点。
 
-9. 为什么使用key
+9. Vue中v-for为什么必须要key？为什么不能用index作为key？
 列表的唯一标识 提升渲染效率
+[链家](https://blog.csdn.net/lixinyi0622/article/details/107713977)
 
 10. axios及安装
 
 11. axios解决跨域
 
-12. v-modal的使用
+12. v-model的使用
+    v-model其实是一个语法糖，这背后其实做了两个操作
+    1.v-bind绑定一个value属性 2.v-on指令给当前元素绑定input事件
 
 13. scss的安装以及使用
 node-sass
@@ -112,39 +116,47 @@ node-sass
     watch
 　　　　当一条数据影响多条数据的时候就需要用watch
 　　　　搜索数据
- 
 
-17.v-on可以监听多个方法吗
+15. v-on可以监听多个方法吗
  v-on="{
      input:onInput,
      focus:onFocus,
      blur:onBlur,
      }"
 
-18.$nextTick的使用
+16. $nextTick的使用
 定义：在下次 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。
 
-19.vue组件中data为什么必须是一个函数
+17. vue组件中data为什么必须是一个函数
+[vue组件中data为什么必须是一个函数](https://zhuanlan.zhihu.com/p/100859260)
 组件是可复用的vue实例，一个组件被创建好之后，就可能被用在各个地方，而组件不管被复用了多少次，组件中的data数据都应该是相互隔离，互不影响的，基于这一理念，组件每复用一次，data数据就应该被复制一次，之后，当某一处复用的地方组件内data数据被改变时，其他复用地方组件的data数据不受影响
 
-20.vue事件对象的使用 (https://img2018.cnblogs.com/blog/1319943/201810/1319943-20181026105419449-936188685.png)
+18. vue事件对象的使用 (https://img2018.cnblogs.com/blog/1319943/201810/1319943-20181026105419449-936188685.png)
 click.prevent 阻止默认行为
 click.stop 阻止事件冒泡
 click.capture 事件只在捕获阶段执行
 click.once 只执行一次
 click.self 只有触发自己的时候才会执行
 
-21 组件间的通信
-22.渐进式框架的理解
-23.Vue中双向数据绑定是如何实现的
-24.单页面应用和多页面应用区别及优缺点
-25.vue中过滤器有什么作用及详解
+19. 组件间的通信
+     路由 query params 
 
-26.v-if和v-for的优先级
-v-for优先级高于v-if 不要同时使用
+20. 渐进式框架的理解
 
-27.assets和static的区别
-28.列举常用的指令
+21. Vue中双向数据绑定是如何实现的
+    数据劫持 和 发布订阅模式
+
+22. 单页面应用和多页面应用区别及优缺点
+
+23. vue中过滤器有什么作用及详解
+
+24. v-if和v-for的优先级
+    v-for优先级高于v-if 不要同时使用
+
+25. assets和static的区别
+
+26. 列举常用的指令
+
 29.vue常用的修饰符
 30.数组更新检测
 31.Vue.set视图更新
@@ -178,25 +190,25 @@ v-for优先级高于v-if 不要同时使用
 59.vue如何引进sass
 60.vue修改打包后静态资源路径的修改
 
-vuex常见面试题
-1.vuex是什么？怎么使用？哪种功能场景使用它？
+# vuex常见面试题
+1. vuex是什么？怎么使用？哪种功能场景使用它？
 vuex是vue的全局状态管理器 通过`npm install vuex`安装之后 在main.js中引入store
 
-2.vuex有哪几种属性
+2. vuex有哪几种属性
 State , Getter , Mutation , Action , Module (就是mapAction)
 
-3.不使用Vuex会带来什么问题
+3. 不使用Vuex会带来什么问题
 
-4.Vue.js中ajax请求代码应该写在组件的methods中还是vuex的actions中？
+4. Vue.js中ajax请求代码应该写在组件的methods中还是vuex的actions中？
 
-5.vuex一个例子方法
+5. vuex一个例子方法
 
-6.Vuex中如何异步修改状态
+6. Vuex中如何异步修改状态
 action
 
-7.Vuex中actions和mutations的区别
+7. Vuex中actions和mutations的区别
 action处理异步事件 通过muaction改变state的值 会默认将自身封装为一个Promise
 
-8.数组中出现__ob__: Observer无法取值
+8. 数组中出现__ob__: Observer无法取值
 需要用JSON.parse(JSON.stringify(数组))
 重新生成一个可枚举数组
