@@ -71,5 +71,5 @@ mapState 辅助函数
 
 3. webpack中利用require.ensure()实现按需加载
 
-4. 插槽 slot 不懂
+4. setcookie在chrome中失败
 

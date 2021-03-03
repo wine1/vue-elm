@@ -62,17 +62,17 @@ export default {
     cityGuess().then(res => {
       this.guessCity = res.name;
       this.guessCityid = res.id;
-      console.log(res);
+      console.log('获取默认城市',res);
     });
     // 获取热门城市列表
     hotcity().then(res => {
       this.hotcity = res;
-      console.log(res);
+      console.log('获取热门城市列表',res);
     });
     // 获取城市列表
     groupcity().then(res => {
       this.groupcity = res;
-      // console.log(res);
+      console.log('获取城市列表',res);
     });
   },
 

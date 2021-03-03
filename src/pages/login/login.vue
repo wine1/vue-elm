@@ -163,6 +163,7 @@ export default {
   color: #fff;
   font-size: 0.8rem;
   border-radius: 0.1rem;
+  text-align: center;
 }
 .reset-password {
   font-size: 0.6rem;

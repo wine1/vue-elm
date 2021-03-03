@@ -1,21 +1,27 @@
 /**
  * 配置编译环境和线上环境之间的切换
- *
+ * 
  * baseUrl: 域名地址
  * routerMode: 路由模式
  * imgBaseUrl: 图片所在域名地址
- *
+ * 
  */
 
-let baseUrl = "";
-let routerMode = "hash";
-let imgBaseUrl = "";
-
-if (process.env.NODE_ENV == "development") {
-  (imgBaseUrl = "https://elm.cangdu.org/img/"), //图片域名地址";
-    (baseUrl = "https://elm.cangdu.org");
-} else if (process.env.NODE_ENV == "production") {
-  baseUrl = "https://elm.cangdu.org";
-  imgBaseUrl = "https://elm.cangdu.org/img/";
-}
-export { baseUrl, routerMode, imgBaseUrl };
+ let baseUrl = ''; 
+ let routerMode = 'hash';
+ let imgBaseUrl = '';
+ 
+ if (process.env.NODE_ENV == 'development') {
+     imgBaseUrl = 'https://elm.cangdu.org/img/';
+     baseUrl = 'https://elm.cangdu.org'
+ 
+ }else if(process.env.NODE_ENV == 'production'){
+   baseUrl = 'https://elm.cangdu.org';
+     imgBaseUrl = 'https://elm.cangdu.org/img/';
+ }
+ 
+ export {
+   baseUrl,
+   routerMode,
+   imgBaseUrl,
+ }
