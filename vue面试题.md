@@ -175,16 +175,35 @@ v-on v-if v-for v-model
 this.$set()和Vue.set()本质方法一样，前者可以用在methods中使用。
 set方法调用时，可以触发页面全部重新渲染。
 
-31. 自定义指令详解
-33.vue的两个核心点
-34.vue和jQuery的区别
-35 引进组件的步骤
-36.Vue-cli打包命令是什么？打包后导致路径问题，应该在哪里修改
-37.三大框架的对比
-38.跨组件双向数据绑定
-39.delete和Vue.delete删除数组的区别
-40.SPA首屏加载慢如何解决
-41.Vue-router跳转和location.href有什么区别
+31. 自定义指令详解 ❓
+
+32. vue的两个核心点
+双向绑定 组件
+
+33. vue和jQuery的区别
+vue中使用的虚拟dom 不直接操作dom 而是通过改变数据来改变视图
+
+34. 引进组件的步骤
+    import
+    声明为组件
+    使用
+
+35. Vue-cli打包命令是什么？打包后导致路径问题，应该在哪里修改
+
+36. 三大框架的对比
+
+37. 跨组件双向数据绑定
+
+38. delete和Vue.delete删除数组的区别
+    delete只是被删除的元素值变成了 empty/undefined 他的元素的键还是不变。
+V   ue.delete 直接删除了数组的键值对 改变了数组的键值。
+
+39. SPA首屏加载慢如何解决
+    路由懒加载 本地缓存静态资源 压缩图片文件体积 打包
+
+40. Vue-router跳转和location.href有什么区别
+    Vue-router跳转是静态跳转 页面不会重载
+
 42.vue slot
 43.你们vue项目是打包了一个js文件，一个css文件，还是有多个文件？
 44.vue遇到的坑，如何解决的？

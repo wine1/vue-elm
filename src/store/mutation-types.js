@@ -6,3 +6,4 @@ export const GET_SEARCHHISTORY = "GET_SEARCHHISTORY";
 export const CLEAR_SEARCHHISTORY = "CLEAR_SEARCHHISTORY";
 export const ADD_CART = "ADD_CART";
 export const REDUCE_CART = "REDUCE_CART";
+export const OUT_LOGIN="OUT_LOGIN"

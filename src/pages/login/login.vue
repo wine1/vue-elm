@@ -18,15 +18,16 @@
         <input type="text" placeholder="请输入您的账号" v-model="userAccount" />
       </section>
       <section class="input-container">
-        <input type="text" placeholder="请输入您的密码" v-model="passWord" />
-        <div class="button-switch" @click="buttonSwitch">
+        <input v-if="isSwitch0" type="password" placeholder="请输入您的密码" v-model="passWord" />
+        <input v-else type="text" placeholder="请输入您的密码" v-model="passWord" />
+        <div class="button-switch" :class="{switch1: !isSwitch0}" @click="buttonSwitch">
           <div class="circle-btn"></div>
           <span>abc···</span>
         </div>
       </section>
       <section class="input-container">
         <input type="text" placeholder="请输入验证码" maxlength="4" v-model="codeNumber" />
-        <img v-show="captchaCodeImg" :src="captchaCodeImg" />
+        <img class="captchacode" v-show="captchaCodeImg" :src="captchaCodeImg" />
         <div class="change-img" @click="getCaptchaCode">
           <p>看不清</p>
           <p>换一张</p>
@@ -64,7 +65,8 @@ export default {
       codeNumber: "", //验证码
       userInfo: null, //用户信息
       showAlert: false,
-      alertText: null
+      alertText: null,
+      isSwitch0:true,
     };
   },
 
@@ -85,7 +87,9 @@ export default {
       let res = await getcaptchas();
       this.captchaCodeImg = res.code;
     },
-    buttonSwitch() {},
+    buttonSwitch() {
+      this.isSwitch0=!this.isSwitch0
+    },
     getVerifyCode() {},
     closeTip() {
       this.showAlert = false;
@@ -146,6 +150,15 @@ export default {
     text-align: left;
     input {
       font-size: 0.7rem;
+      width:60%;
+      background: transparent;
+      vertical-align: middle;
+    }//消除google浏览器黄色框
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus {
+    box-shadow:0 0 0 60px #ffffff inset;
+    -webkit-background-fill-color: #333;
     }
   }
 }
@@ -201,6 +214,16 @@ export default {
     height: 0.6rem;
     color: #333;
   }
+  &.switch1 {
+    .circle-btn {
+      background: #3190e8;
+      right: -0.2rem;
+      left: auto;
+    }
+  }
+}
+.captchacode {
+  vertical-align: middle;
 }
 .change-img {
   float: right;

@@ -33,8 +33,10 @@
         </span>
       </router-link>
     </section>
-
     <footerGuide></footerGuide>
+    <transition name="router-slid" mode="out-in">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
@@ -56,11 +58,11 @@ export default {
       count: 0, //优惠券个数
       pointNumber: 0, //积分数
       avatar: "", //头像地址
-      imgBaseUrl
+      imgBaseUrl,
     };
   },
   computed: {
-    ...mapState(["userInfo"])
+    ...mapState(["userInfo"]),
   },
   mounted() {
     this.GET_USERINFO();
@@ -82,13 +84,13 @@ export default {
         this.username = "登录/注册";
         this.mobile = "暂无绑定手机号";
       }
-    }
+    },
   },
   watch: {
-    userInfo: function(value) {
+    userInfo: function (value) {
       this.initData();
-    }
-  }
+    },
+  },
 };
 </script>
 

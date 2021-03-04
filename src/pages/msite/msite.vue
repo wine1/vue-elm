@@ -34,7 +34,7 @@
     <div class="wrap_main">
       <!-- 商品分类 -->
       <div class="wrap-typelist">
-        <div class="typelist-li" v-for="item in typeList">
+        <div class="typelist-li" v-for="item in typeList" :key="item.id">
           <img :src="imgBaseUrl + item.image_url" alt />
           <div>{{ item.title }}</div>
         </div>

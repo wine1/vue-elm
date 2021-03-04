@@ -316,6 +316,7 @@ export default {
 }
 .wrapper {
   display: flex;
+  width: 100%;
   height: calc(100vh - 5rem);
 }
 
@@ -344,7 +345,8 @@ export default {
 }
 .menu-right {
   height: 100%;
-  flex: 1;
+  width: calc(100% - 4rem);
+  // flex: 1;
   .menu-right-ul {
     padding-bottom: 100vh;
   }
@@ -371,7 +373,10 @@ export default {
           margin-right: 0.5rem;
         }
         .wrap-right {
-          flex: 1;
+          // flex: 1;
+          p{
+            word-break: break-all;
+          }
         }
         .shop-cart {
           position: absolute;

@@ -7,7 +7,8 @@ import {
   GET_SEARCHHISTORY,
   CLEAR_SEARCHHISTORY,
   ADD_CART,
-  REDUCE_CART
+  REDUCE_CART,
+  OUT_LOGIN
 } from "./mutation-types";
 
 export default {
@@ -103,5 +104,10 @@ export default {
       sku_id,
       stock
     }
-  ) {}
+  ) {},
+
+  [OUT_LOGIN](state){
+		state.userInfo = {};
+		state.login = false;
+  },
 };

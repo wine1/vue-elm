@@ -30,6 +30,7 @@
   <Toast :showToast="showToast" :text="toastText"></Toast>
 
   <footerGuide></footerGuide>
+
 </html>
 </template>
 
@@ -57,7 +58,7 @@ export default {
   },
   created: function() {
     this.GET_SEARCHHISTORY();
-    this.historyList = this.searchHistory;
+    this.historyList = this.searchHistory||[];
   },
   computed: {
     ...mapState(["geohash", "searchHistory"]),

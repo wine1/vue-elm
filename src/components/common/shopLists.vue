@@ -1,6 +1,6 @@
 <template>
   <div id="shop_list">
-    <div v-for="item in lists">
+    <div v-for="item in lists" :key="item.id">
       <router-link
         class="shop-list-info"
         :to="{path:'shop',query:{geohash,id:item.id,deliveryFee:item.float_delivery_fee,miniOrderAmount:item.float_minimum_order_amount,name:item.name,img:item.image_path,rating:item.rating}} "
@@ -44,6 +44,14 @@ export default {
     .name {
       word-break: break-all;
     }
+  }
+  .address{
+    font-size: 0.7rem;
+    color: #666;
+  }
+  .rating {
+    font-size: 0.7rem;
+    color: #fa7901;
   }
 }
 </style>
