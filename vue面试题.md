@@ -204,11 +204,9 @@ V   ue.delete 直接删除了数组的键值对 改变了数组的键值。
 40. Vue-router跳转和location.href有什么区别
     Vue-router跳转是静态跳转 页面不会重载
 
-42.vue slot
-43.你们vue项目是打包了一个js文件，一个css文件，还是有多个文件？
-44.vue遇到的坑，如何解决的？
-45.Vue里面router-link在电脑上有用，在安卓上没反应怎么解决？
-46.Vue2中注册在router-link上事件无效解决方法
+41. vue slot
+42. Vue里面router-link在电脑上有用，在安卓上没反应怎么解决？
+43. Vue2中注册在router-link上事件无效解决方法
 47.RouterLink在IE和Firefox中不起作用（路由不跳转）的问题
 48.axios的特点有哪些
 49.请说下封装 vue 组件的过程？
@@ -222,7 +220,7 @@ V   ue.delete 直接删除了数组的键值对 改变了数组的键值。
 57.vue常用的UI组件库
 58.vue如何引进本地背景图片
 59.vue如何引进sass
-60.vue修改打包后静态资源路径的修改
+60.vue修改打包后静态资源路径
 
 # vuex常见面试题
 1. vuex是什么？怎么使用？哪种功能场景使用它？

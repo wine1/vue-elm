@@ -24,7 +24,7 @@
       </li>
     </ul>
     <ul class="tab-content">
-      <li v-show="changeShowType == 'food'">
+      <li v-show="changeShowType == 'food'" style="height:100%;">
         <div class="wrapper">
           <div class="menu-left" ref="menuLeft" id="menuLeft">
             <ul>
@@ -68,7 +68,7 @@
         <div class="wrap-cart-list" v-if="showCartList && cartList.length">
           <div class="mask" @click="toggleCartList"></div>
           <ul>
-            <li v-for="item in cartList">
+            <li v-for="item in cartList" :key="item.id">
               <p>{{ item.name }}</p>
               <p>{{ item.price }}</p>
             </li>
@@ -183,7 +183,6 @@ export default {
     getFoodListHeight() {
       const listContainer = this.$refs.menuRight;
       const listArr = Array.from(listContainer.children[0].children);
-      console.log("listArr", listArr, "listContainer", listContainer);
       listArr.forEach((item, index) => {
         this.shopListTop[index] = item.offsetTop;
       });
@@ -212,18 +211,18 @@ export default {
     },
 
     //加购商品
-    addToCart(id, name, price) {
-      this.cartList.forEach((item) => {
-        if (id == item.id) {
-          item.count++;
-        } else {
-          item.count = 1;
-        }
-      });
-      this.cartList = this.cartList.concat({ id, name, price });
-      this.cartList = JSON.parse(JSON.stringify(this.cartList));
-      console.log(this.cartList, id, name, price);
-    },
+    // addToCart(id, name, price) {
+    //   this.cartList.forEach((item) => {
+    //     if (id == item.id) {
+    //       item.count++;
+    //     } else {
+    //       item.count = 1;
+    //     }
+    //   });
+    //   this.cartList = this.cartList.concat({ id, name, price });
+    //   this.cartList = JSON.parse(JSON.stringify(this.cartList));
+    //   console.log(this.cartList, id, name, price);
+    // },
 
     //切换购物车的显示隐藏
     toggleCartList() {
@@ -317,12 +316,13 @@ export default {
 .wrapper {
   display: flex;
   width: 100%;
-  height: calc(100vh - 5rem);
+  height: 100%;
 }
 
 .menu-left {
   height: 100%;
   width: 4rem;
+  overflow: scroll;
   li {
     padding: 0.8rem 0.5rem;
     font-size: 0.8rem;
