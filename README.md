@@ -32,7 +32,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
     店铺评价页面 
     单个食品详情页面 
     商家详情页 
-    √ 登录、注册 
+    √ 登录、注册 退出登陆 （登陆状态管理 vuex + localstorage）
     修改密码 
     个人中心 
     发送短信、语音验证 

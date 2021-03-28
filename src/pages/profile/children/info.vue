@@ -21,6 +21,7 @@ export default {
     loginout() {
       this.OUT_LOGIN()
       console.log('注销登陆')
+      this.$router.go(-1)
     },
   },
 };

@@ -2,26 +2,21 @@
   <div id="shop">
     <loading v-if="isLoading"></loading>
     <div class="wrap-header">
-      <div class="nav-back" @click="navBack"><img src="../../images/back.png" alt="" /></div>
-      <img class="shop-img" :src="`${imgBaseUrl}${this.shopImg}`" alt="">
-     <div class="wrap-text">
+      <div class="nav-back" @click="navBack">
+        <img src="../../images/back.png" alt />
+      </div>
+      <img class="shop-img" :src="`${imgBaseUrl}${this.shopImg}`" alt />
+      <div class="wrap-text">
         <div class="shop-name">{{this.shopName}}</div>
-      <div class="shop-rating">评分：{{this.shopRating}}</div>
-     </div>
+        <div class="shop-rating">评分：{{this.shopRating}}</div>
+      </div>
     </div>
     <ul class="tab-bar">
-      <li
-        :class="{ 'active-bar': changeShowType == 'food' }"
-        @click="changeShowType = 'food'"
-      >
-        商品
-      </li>
+      <li :class="{ 'active-bar': changeShowType == 'food' }" @click="changeShowType = 'food'">商品</li>
       <li
         :class="{ 'active-bar': changeShowType == 'rating' }"
         @click="changeShowType = 'rating'"
-      >
-        评价
-      </li>
+      >评价</li>
     </ul>
     <ul class="tab-content">
       <li v-show="changeShowType == 'food'" style="height:100%;">
@@ -33,9 +28,7 @@
                 :key="item.id"
                 :class="{ active: index == menuIndex }"
                 @click="chooseMenu(index)"
-              >
-                {{ item.name }}{{ item.type }}
-              </li>
+              >{{ item.name }}{{ item.type }}</li>
             </ul>
           </div>
           <div class="menu-right" ref="menuRight">
@@ -53,11 +46,7 @@
                       <p>{{ foods.rating }}</p>
                       <p>￥{{ foods.specfoods[0].price }}</p>
                     </div>
-                    <shopCart
-                      class="shop-cart"
-                      :shopId="shopId"
-                      :foods="foods"
-                    ></shopCart>
+                    <buyCart class="shop-cart" :shopId="shopId" :foods="foods"></buyCart>
                   </li>
                 </ul>
               </li>
@@ -65,20 +54,20 @@
           </div>
         </div>
 
-        <div class="wrap-cart-list" v-if="showCartList && cartList.length">
+        <!-- 购物车列表开始 -->
+        <div class="wrap-cart-list" v-if="showCartList && shopCart.length">
           <div class="mask" @click="toggleCartList"></div>
           <ul>
-            <li v-for="item in cartList" :key="item.id">
+            <li v-for="item in shopCart" :key="item.id">
               <p>{{ item.name }}</p>
               <p>{{ item.price }}</p>
             </li>
           </ul>
         </div>
 
-        <div
-          class="wrap-buy-cart"
-          :class="{ 'wrap-buy-cart-active': cartList.length }"
-        >
+        <!-- 购物车列表结束 -->
+        <!-- 底部购物车开始 -->
+        <div class="wrap-buy-cart" :class="{ 'wrap-buy-cart-active': shopCart.length }">
           <div class="wrap-icon" @click="toggleCartList">
             <div class="dot" v-if="countFood">{{ countFood }}</div>
             <img src="../../images/buycart.png" alt />
@@ -90,10 +79,11 @@
           </div>
 
           <div class="wrap-button">
-            <p>去结算</p>
-            <p>还差￥{{ miniOrderAmount }}元起送</p>
+            <p v-if="{miniOrderAmount}">还差￥{{ miniOrderAmount }}元起送</p>
+            <p v-else>去结算</p>
           </div>
         </div>
+        <!-- 底部购物车结束 -->
       </li>
       <li v-show="changeShowType == 'rating'">
         <p>评论</p>
@@ -104,10 +94,11 @@
 
 <script>
 import BScroll from "better-scroll";
-import shopCart from "../../components/common/shopCart";
+import buyCart from "../../components/common/buyCart";
 import loading from "../../components/common/loading";
 import { foodMenu } from "../../service/getData";
 import { imgBaseUrl } from "../../../src/config/env";
+import { mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {
@@ -120,18 +111,17 @@ export default {
       shopRating: "",
       imgBaseUrl,
       countPrice: "0.00",
-      countFood: 0,
       isLoading: true,
       shopListTop: [],
       foodScroll: null, //食品列表scroll
       countDelivery: "0",
       miniOrderAmount: "0",
-      cartList: [], //购物车列表
+      // cartList: [], //购物车列表
       showCartList: false, //展示购物车列表
     };
   },
 
-  components: { shopCart, loading },
+  components: { buyCart, loading },
 
   created: function () {
     if (this.$route.query) {
@@ -145,7 +135,17 @@ export default {
     }
   },
 
-  //   computed: {},
+  computed: {
+    ...mapState(["latitude", "longitude", "cartList"]),
+    //当前商店购物信息
+    shopCart: function () {
+      return { ...this.cartList[this.shopId] };
+    },
+
+      countFood:function(){
+        return this.cartList.length
+      }
+  },
 
   mounted() {
     this.initData();
@@ -210,29 +210,16 @@ export default {
       });
     },
 
-    //加购商品
-    // addToCart(id, name, price) {
-    //   this.cartList.forEach((item) => {
-    //     if (id == item.id) {
-    //       item.count++;
-    //     } else {
-    //       item.count = 1;
-    //     }
-    //   });
-    //   this.cartList = this.cartList.concat({ id, name, price });
-    //   this.cartList = JSON.parse(JSON.stringify(this.cartList));
-    //   console.log(this.cartList, id, name, price);
-    // },
-
     //切换购物车的显示隐藏
     toggleCartList() {
       this.showCartList = !this.showCartList;
+      console.log(this.shopCart);
     },
 
-    navBack(){
-      console.log(this.$router)
-      this.$router.go(-1)
-    }
+    navBack() {
+      console.log(this.$router);
+      this.$router.go(-1);
+    },
   },
 };
 </script>
@@ -244,7 +231,7 @@ export default {
   width: 100%;
   height: 6rem;
   display: flex;
-  background:#3190e8;
+  background: #3190e8;
   z-index: 999;
   .nav-back {
     position: absolute;
@@ -252,13 +239,13 @@ export default {
     top: 0;
     height: 2rem;
     width: 2rem;
-    padding: .5rem;
+    padding: 0.5rem;
     img {
-      width:100%;
-      height:100%;
+      width: 100%;
+      height: 100%;
     }
   }
-  .shop-img{
+  .shop-img {
     height: 4rem;
     width: 4rem;
     margin: 1rem;
@@ -374,7 +361,7 @@ export default {
         }
         .wrap-right {
           // flex: 1;
-          p{
+          p {
             word-break: break-all;
           }
         }
@@ -460,11 +447,21 @@ export default {
   .wrap-price {
     flex: 1;
     margin-left: 5rem;
+    color: #fff;
+    font-size: 0.9rem;
+    p {
+      color: #fff;
+    }
   }
   .wrap-button {
     flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    p {
+      color: #fff;
+    }
   }
 }
-
-
 </style>

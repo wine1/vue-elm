@@ -24,7 +24,9 @@
 import { mapState, mapMutations } from "vuex";
 export default {
   data() {
-    return {};
+    return {
+      foodNum:0,
+    };
   },
   props: ["foods", "shopId"],
 
@@ -34,31 +36,8 @@ export default {
     shopCart: function () {
       return Object.assign({}, this.cartList[this.shopId]);
     },
-    foodNum: {
-      // console.log('foods',this.foods)
-      get: function () {
-        let num = 0;
-        let category_id = this.foods.category_id;
-        let item_id = this.foods.item_id;
-        if (
-          this.shopCart &&
-          this.shopCart[category_id] &&
-          this.shopCart[category_id][item_id]
-        ) {
-          let num = 0;
-          Object.values(this.shopCart[category_id][item_id]).forEach(
-            (item, index) => {
-              num += item.num;
-            }
-          );
-        }
-        return num
-      },
-      set: function (newVal) {
-        console.log(123,newVal)
-        this.foodNum = newVal;
-      },
-    },
+    // foodNum: function(){
+    // },
   },
 
   //   mounted: {},

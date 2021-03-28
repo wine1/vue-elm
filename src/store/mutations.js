@@ -157,5 +157,6 @@ export default {
   [OUT_LOGIN](state){
 		state.userInfo = {};
 		state.login = false;
+    removeStore('userInfo')
   },
 };
