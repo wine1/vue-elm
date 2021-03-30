@@ -118,6 +118,7 @@ export default {
 			};
 		}
 		state.cartList = {...cart};
+    console.log(state.cartList)
 		//存入localStorage
 		setStore('buyCart', state.cartList);
 	},

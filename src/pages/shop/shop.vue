@@ -142,9 +142,13 @@ export default {
       return { ...this.cartList[this.shopId] };
     },
 
-      countFood:function(){
-        return this.cartList.length
-      }
+    countFood: function () {
+      let num = 0;
+      this.cartFoodList.forEach((item) => {
+        num += item.num;
+        return num;
+      });
+    },
   },
 
   mounted() {
