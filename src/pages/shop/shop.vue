@@ -139,15 +139,16 @@ export default {
     ...mapState(["latitude", "longitude", "cartList"]),
     //当前商店购物信息
     shopCart: function () {
+
       return { ...this.cartList[this.shopId] };
     },
 
     countFood: function () {
-      let num = 0;
+     let num = 0;
       this.cartFoodList.forEach((item) => {
         num += item.num;
-        return num;
       });
+      return num;
     },
   },
 
@@ -217,7 +218,8 @@ export default {
     //切换购物车的显示隐藏
     toggleCartList() {
       this.showCartList = !this.showCartList;
-      console.log(this.shopCart);
+      
+    console.log('shopCart',this.shopCart,this.cartList)
     },
 
     navBack() {

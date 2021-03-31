@@ -3,7 +3,7 @@
     <div class="add-btn">
       <div
         class="wrap-reduce"
-        @click="removeOutCart(shopId,foods._id,foods.name,foods.specfoods[0].price)"
+        @click="removeOutCart(foods.category_id, foods.item_id, foods.specfoods[0].food_id, foods.specfoods[0].name, foods.specfoods[0].price, '', foods.specfoods[0].packing_fee, foods.specfoods[0].sku_id, foods.specfoods[0].stock)"
       >
         <img src="../../images/reduce.png" alt />
       </div>
@@ -12,7 +12,7 @@
       </div>
       <div
         class="wrap-add"
-        @click="addToCart(shopId,foods._id,foods.name,foods.specfoods[0].price)"
+        @click="addToCart(foods.category_id, foods.item_id, foods.specfoods[0].food_id, foods.specfoods[0].name, foods.specfoods[0].price, '', foods.specfoods[0].packing_fee, foods.specfoods[0].sku_id, foods.specfoods[0].stock, $event)"
       >
         <img src="../../images/add.png" alt />
       </div>
@@ -25,7 +25,7 @@ import { mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      foodNum:0,
+      foodNum: 0,
     };
   },
   props: ["foods", "shopId"],
@@ -44,16 +44,63 @@ export default {
 
   methods: {
     ...mapMutations(["ADD_CART", "REDUCE_CART"]),
-    addToCart(shopId, foodid, name, price) {
-      console.log("addToCart");
-      this.ADD_CART({ shopId, foodid, name, price });
+    //加入购物车，计算按钮位置。
+    addToCart(
+      category_id,
+      item_id,
+      food_id,
+      name,
+      price,
+      specs,
+      packing_fee,
+      sku_id,
+      stock,
+      event
+    ) {
+      this.ADD_CART({
+        shopid: this.shopId,
+        category_id,
+        item_id,
+        food_id,
+        name,
+        price,
+        specs,
+        packing_fee,
+        sku_id,
+        stock,
+      });
       this.foodNum += 1;
+      // let elLeft = event.target.getBoundingClientRect().left;
+      // let elBottom = event.target.getBoundingClientRect().bottom;
+      // this.showMoveDot.push(true);
+      // this.$emit("showMoveDot", this.showMoveDot, elLeft, elBottom);
     },
-    removeOutCart(shopId, foodid, name, price) {
-      console.log("removeOutCart");
-      if (this.foodNum >= 1) {
-        this.REDUCE_CART({ shopId, foodid, name, price });
-        this.foodNum -= 1;
+    removeOutCart(
+      category_id,
+      item_id,
+      food_id,
+      name,
+      price,
+      specs,
+      packing_fee,
+      sku_id,
+      stock
+    ) {
+      if (this.foodNum > 0) {
+        this.REDUCE_CART({
+          shopid: this.shopId,
+          category_id,
+          item_id,
+          food_id,
+          name,
+          price,
+          specs,
+          packing_fee,
+          sku_id,
+          stock,
+        });
+
+      this.foodNum -= 1;
       }
     },
   },
